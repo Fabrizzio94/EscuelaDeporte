@@ -10,7 +10,7 @@ namespace Entidades
     {
         
         
-        public int Id_alumno { get; set; }
+        public string Id_alumno { get; set; }
         public string nomb_alumno { get; set; }
         public string sexo { get; set; }
         public DateTime fecha_nacimiento { get; set; }

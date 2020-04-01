@@ -30,9 +30,42 @@ namespace Escuela_app
         private Alumno _MetodosAlumno = new Alumno();
         private metodos_eventos methods_event = new metodos_eventos();
         MainWindow ventana;
+        InsertRepresentante WRepresentante;
         Image imagenBoton;
         string rutaimage = "";
         // methods
+        /* general methods */
+        /*private void GuardarAlumno()
+        {
+            try
+            {
+                if (ERepresentante == null) ERepresentante = new ERepresentante();
+                ERepresentante.Id_representante = textBox_cedula.Text;
+                ERepresentante.nomb_representante = textBox_nombre.Text;
+                ERepresentante.parentesco = textBox_parentesco.Text;
+                ERepresentante.celular = textBox_celular.Text;
+                ERepresentante.observacion = textBox_observacion.Text;
+
+                representante.SaveRepresentante(ERepresentante);
+
+                if (representante.stringBuilder.Length != 0)
+                {
+                    MessageBox.Show(representante.stringBuilder.ToString(), "Para continuar:");
+                }
+                else
+                {
+                    MessageBox.Show("Representante registrado/actualizado con éxito");
+                    this.DialogResult = true;
+                    // TraerTodos();
+                }
+
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(string.Format("Error: {0}", er.Message), "Error inesperado");
+
+            }
+        }*/
         public void AsignacionComboBox()
         {
             
@@ -54,33 +87,24 @@ namespace Escuela_app
             if (fechaActual < fecha.SelectedDate.Value.AddYears(edad)) edad--;
             return edad;
         }
-        void validateTextFilled()
-        {
-            bool validData = true;
-            foreach (Control control in grilla.Children.OfType<TextBox>())
-            {
-                if (control is TextBox)
-                {
-                    TextBox textbox = control as TextBox;
-                    validData &= !string.IsNullOrWhiteSpace(textbox.Text);
-                }
-            }
-
-            button_representante.IsEnabled = validData;
-            if(validData)
-            {
-                imagenBoton.Source = methods_event.DrawImage(rutaimage);
-            }
-        }
+        
         // events 
         private void Button_representante_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("click");
-            button_representante.IsEnabled = false;
-            // imagenBoton = button_representante.FindName("imagen_repre") as Image;
-            // imagenBoton.Source = methods_event.DrawImage(rutaimage);
-            // imagen_repre.IsEnabled = false;
-
+            using(WRepresentante = new InsertRepresentante()) {
+               WRepresentante.ShowDialog();
+               if (WRepresentante.DialogResult == false)
+                {
+                    Console.WriteLine("click cancel");
+                    // string custName = form.CustomerName;
+                    //SaveToFile(custName);
+                } else
+                {
+                    Console.WriteLine(WRepresentante.ERepresentante.nomb_representante);
+                    textBox_representante.Text = WRepresentante.ERepresentante.nomb_representante;
+                }
+            }
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -109,7 +133,9 @@ namespace Escuela_app
         }
         private void Fecha_nacimiento_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            textBox_edad.Text = calcularEdad(fecha_nacimiento).ToString();
+            // textBox_edad.Text = calcularEdad(fecha_nacimiento).ToString();
+            textBox_edad.Text = methods_event.CalcularEdad(fecha_nacimiento).ToString();
+
         }
         private void TextBox_cedula_KeyDown(object sender, KeyEventArgs e)
         {
@@ -181,9 +207,19 @@ namespace Escuela_app
             }
         }
 
-        private void TextBox_uniforme_TextChanged(object sender, TextChangedEventArgs e)
+        // TextBox_uniforme_TextChanged
+        private void TextBoxes_TextChanged(object sender, TextChangedEventArgs e)
         {
-            validateTextFilled();
+            button_representante.IsEnabled = methods_event.ValidateTextFilled(grilla, button_representante);
+            if (button_representante.IsEnabled)
+            {
+                imagenBoton.Source = methods_event.DrawImage(rutaimage);
+            }
+            else
+            {
+                imagenBoton.Source = methods_event.DrawBitmapGreyscale(rutaimage);
+            }
         }
+
     }
 }

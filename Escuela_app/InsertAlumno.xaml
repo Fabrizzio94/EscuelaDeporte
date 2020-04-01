@@ -5,32 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Escuela_app"
         mc:Ignorable="d"
-        Title="InsertAlumno" Height="462.805" Width="728.463" Closed="Window_Closed">
+        ResizeMode="NoResize"
+        Title="InsertAlumno" Height="493.805" Width="849.463" Closed="Window_Closed" WindowStyle="ThreeDBorderWindow">
     <Grid x:Name="grilla" Margin="0,0,3.6,1">
-        <Label x:Name="label" Content="Cedula: " HorizontalAlignment="Left" Margin="41,21,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox_cedula" HorizontalAlignment="Left" Height="23" Margin="99,24,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" KeyDown="TextBox_cedula_KeyDown" PreviewKeyDown="TextBox_cedula_PreviewKeyDown"/>
-        <Label x:Name="label1" Content="Nombre: " HorizontalAlignment="Left" Margin="35,63,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox_nombre" HorizontalAlignment="Left" Height="23" Margin="99,65,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="330" KeyDown="TextBox_nombre_KeyDown"/>
-        <Label x:Name="label2" Content="Sexo: " HorizontalAlignment="Left" Margin="52,101,0,0" VerticalAlignment="Top"/>
-        <RadioButton x:Name="radioButton_masculino" Content="Masculino" HorizontalAlignment="Left" Margin="99,107,0,0" VerticalAlignment="Top"/>
-        <RadioButton x:Name="radioButton_femenino" Content="Femenino" HorizontalAlignment="Left" Margin="189,107,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="label3" Content="Fecha Nacimiento:" HorizontalAlignment="Left" Margin="23,138,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.47,0.474"/>
-        <DatePicker x:Name="fecha_nacimiento" HorizontalAlignment="Left" Margin="141,139,0,0" VerticalAlignment="Top" SelectedDateChanged="Fecha_nacimiento_SelectedDateChanged"/>
-        <Label x:Name="label4" Content="Edad: " HorizontalAlignment="Left" Margin="309,137,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox_edad" HorizontalAlignment="Left" Height="23" Margin="356,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" KeyDown="TextBox_edad_KeyDown"/>
-        <Label x:Name="label5" Content="Provincia: " HorizontalAlignment="Left" Margin="35,179,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="label6" Content="Ciudad: " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="247,183,0,0"/>
-        <ComboBox x:Name="comboBox_provincia" HorizontalAlignment="Left" Margin="105,182,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_provincia_SelectionChanged"/>
-        <ComboBox x:Name="comboBox_ciudad" HorizontalAlignment="Left" Margin="309,183,0,0" VerticalAlignment="Top" Width="120"/>
-        <Label x:Name="label7" Content="Nacionalidad: " HorizontalAlignment="Left" Margin="455,183,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox_nacional" HorizontalAlignment="Left" Height="23" Margin="545,183,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" KeyDown="TextBox_nacional_KeyDown"/>
-        <Label x:Name="label8" Content="Dirección: " HorizontalAlignment="Left" Margin="28,219,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox_direccion" HorizontalAlignment="Left" Height="23" Margin="105,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="435"/>
-        <Label x:Name="label9" Content="Tipo de Sangre: " HorizontalAlignment="Left" Margin="15,254,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="comboBox_sangre" HorizontalAlignment="Left" Margin="116,254,0,0" VerticalAlignment="Top" Width="120"/>
-        <Label x:Name="label10" Content="Uniforme: " HorizontalAlignment="Left" Margin="261,253,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox_uniforme" HorizontalAlignment="Left" Height="23" Margin="332,254,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" KeyDown="TextBox_uniforme_KeyDown" TextChanged="TextBox_uniforme_TextChanged"/>
-        <Button x:Name="button_representante"  HorizontalAlignment="Left" Margin="65,297,0,0" VerticalAlignment="Top" Width="67" Height="67" Click="Button_representante_Click" IsEnabled="False">
+        <Label x:Name="label" Content="Cedula: " Margin="76,23,0,0" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <TextBox x:Name="textBox_cedula" HorizontalAlignment="Left" Height="23" Margin="139,26,0,0" TextWrapping="Wrap" Text="" Width="120" KeyDown="TextBox_cedula_KeyDown" PreviewKeyDown="TextBox_cedula_PreviewKeyDown" TextChanged="TextBoxes_TextChanged" FontSize="14" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
+        <Label x:Name="label1" Content="Nombre: " Margin="65,63,0,0" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <TextBox x:Name="textBox_nombre" HorizontalAlignment="Left" Height="23" Margin="139,65,0,0" TextWrapping="Wrap" Text="" Width="330" KeyDown="TextBox_nombre_KeyDown" TextChanged="TextBoxes_TextChanged" FontSize="14" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
+        <Label x:Name="label2" Content="Sexo: " Margin="87,101,0,0" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <RadioButton x:Name="radioButton_masculino" Content="Masculino" HorizontalAlignment="Left" Margin="139,107,0,0" VerticalAlignment="Top" FontSize="14" VerticalContentAlignment="Center"/>
+        <RadioButton x:Name="radioButton_femenino" Content="Femenino" HorizontalAlignment="Left" Margin="244,107,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="label3" Content="Fecha Nacimiento:" Margin="6,140,0,0" RenderTransformOrigin="0.47,0.474" FontSize="14" Width="124" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <DatePicker x:Name="fecha_nacimiento" HorizontalAlignment="Left" Margin="139,142,0,0" VerticalAlignment="Top" SelectedDateChanged="Fecha_nacimiento_SelectedDateChanged" FontSize="14" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+        <Label x:Name="label4" Content="Edad: " HorizontalAlignment="Left" Margin="344,140,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <TextBox x:Name="textBox_edad" HorizontalAlignment="Left" Height="23" Margin="391,143,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" KeyDown="TextBox_edad_KeyDown" TextChanged="TextBoxes_TextChanged" FontSize="14"/>
+        <Label x:Name="label5" Content="Provincia: " Margin="60,186,0,0" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Label x:Name="label6" Content="Ciudad: " Margin="331,187,0,0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Height="28"/>
+        <ComboBox x:Name="comboBox_provincia" Margin="139,189,0,0" Width="120" SelectionChanged="ComboBox_provincia_SelectionChanged" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <ComboBox x:Name="comboBox_ciudad" Margin="391,191,0,0" Width="120" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Label x:Name="label7" Content="Nacionalidad: " Margin="543,187,0,0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Height="28" Width="96"/>
+        <TextBox x:Name="textBox_nacional" Height="23" Margin="654,191,29.6,0" TextWrapping="Wrap" Text="" KeyDown="TextBox_nacional_KeyDown" TextChanged="TextBoxes_TextChanged" FontSize="14" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+        <Label x:Name="label8" Content="Dirección: " HorizontalAlignment="Left" Margin="57,228,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <TextBox x:Name="textBox_direccion" HorizontalAlignment="Left" Height="23" Margin="139,234,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="435" TextChanged="TextBoxes_TextChanged" FontSize="14" VerticalContentAlignment="Center"/>
+        <Label x:Name="label9" Content="Tipo de Sangre: " HorizontalAlignment="Left" Margin="22,273,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <ComboBox x:Name="comboBox_sangre" HorizontalAlignment="Left" Margin="139,275,0,0" VerticalAlignment="Top" Width="120" FontSize="14" VerticalContentAlignment="Center"/>
+        <Label x:Name="label10" Content="Uniforme: " HorizontalAlignment="Left" Margin="317,273,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <TextBox x:Name="textBox_uniforme" HorizontalAlignment="Left" Height="23" Margin="391,276,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" KeyDown="TextBox_uniforme_KeyDown" TextChanged="TextBoxes_TextChanged" FontSize="14"/>
+        <Button x:Name="button_representante"  HorizontalAlignment="Left" Margin="80,370,0,0" VerticalAlignment="Top" Width="67" Height="67" Click="Button_representante_Click" IsEnabled="False">
             <Image  Name="imagen_repre" Source="/Resources/representant.png" Stretch="None"  VerticalAlignment="Center" HorizontalAlignment="Center" />
             <Button.Resources>
                 <Style TargetType="Border">
@@ -38,6 +39,11 @@
                 </Style>
             </Button.Resources>
         </Button>
+        <Button x:Name="button_limpiar" Content="Limpiar" HorizontalAlignment="Left" Margin="204,379,0,0" VerticalAlignment="Top" Width="86" Height="53"/>
+        <Button x:Name="button_guardar" Content="Guardar" HorizontalAlignment="Left" Margin="347,379,0,0" VerticalAlignment="Top" Width="75" Height="37"/>
+        <Label x:Name="label11" Content="Representante: " HorizontalAlignment="Left" Margin="28,312,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <TextBox x:Name="textBox_representante" HorizontalAlignment="Left" Height="23" Margin="139,318,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="348" FontSize="14" IsEnabled="False"/>
+        <Button x:Name="button_cancelar" Content="Cancelar" HorizontalAlignment="Left" Margin="474,379,0,0" VerticalAlignment="Top" Width="100" Height="53"/>
 
 
     </Grid>

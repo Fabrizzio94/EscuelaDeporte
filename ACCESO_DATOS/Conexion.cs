@@ -16,12 +16,87 @@ namespace ACCESO_DATOS
         NpgsqlConnection conexion = new NpgsqlConnection();
         // conexion.ConnectionString = Properties.Settings.Default.DBP;
 
+        /************************************************* REPRESENTANTE ************************************************************/
+        /// <summary>
+        /// Insert of students
+        /// Method of Insert of representate table
+        /// </summary>
+        /// <param name="Erepresentante"></param>
+        public void InsertRepresentante(ERepresentante Erepresentante)
+        {
+            try
+            {
+                /*conexion.ConnectionString = cadena;
+                conexion.Open();*/
+                query = @"INSERT INTO representante (id_representante, nombre, parentesco, celular, observaciones)
+                                               VALUES (@id_representante,@nombre,@parentesco,@celular,@observaciones)";
+                using(NpgsqlConnection con = new NpgsqlConnection(cadena)) {
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
+                    {
+                        con.Open();
+                        cmd.Parameters.AddWithValue("@id_representante", Erepresentante.Id_representante);
+                        cmd.Parameters.AddWithValue("@nombre", Erepresentante.nomb_representante);
+                        cmd.Parameters.AddWithValue("@parentesco", Erepresentante.parentesco);
+                        cmd.Parameters.AddWithValue("@celular", Erepresentante.celular);
+                        cmd.Parameters.AddWithValue("@observaciones", Erepresentante.observacion);
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+                
+            }
+            catch (Exception er)
+            {
+                Console.WriteLine(er.Message);
+            }
+        }
+        /// <summary>
+        /// Search and validate existing Representante
+        /// </summary>
+        /// <param name="cedula"></param>
+        public ERepresentante GetRepresentanteById(string cedula)
+        {
+            try
+            {
+                query = @"SELECT * FROM representante WHERE id_representante = @cedula";
+                using (NpgsqlConnection con = new NpgsqlConnection(cadena))
+                {
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
+                    {
+                        con.Open();
+                        cmd.Parameters.AddWithValue("@cedula", cedula);
+                        NpgsqlDataReader dataReader = cmd.ExecuteReader();
+                        if (dataReader.Read())
+                        {
+                            ERepresentante Erepresentante = new ERepresentante
+                            {
+                                Id_representante = Convert.ToString(dataReader["id_representante"]),
+                                nomb_representante = Convert.ToString(dataReader["nombre"]),
+                                parentesco = Convert.ToString(dataReader["parentesco"]),
+                                celular = Convert.ToString(dataReader["celular"]),
+                                observacion = Convert.ToString(dataReader["observaciones"])
+                            };
+                            return Erepresentante;
+                        }
+                        // con.Close();
+                    }
+                }
+                return null;
+            }
+            catch (Exception er)
+            {
+                Console.WriteLine(er.Message);
+                return null;
+            }
+        }
+
+        /************************************************* ALUMNO *******************************************************************/
         /// <summary>
         /// Insert of students
         /// Method of Insert of students table
         /// </summary>
         /// <param name="Ealumno"></param>
-        public void insertAlumno(EAlumno Ealumno)
+        public void InsertAlumno(EAlumno Ealumno)
         {
             try {
                 conexion.ConnectionString = cadena;
