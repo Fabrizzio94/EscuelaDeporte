@@ -237,7 +237,7 @@ namespace LogicaNegocio
             Console.WriteLine(dest);
             //File.Copy(source, dest);
         }
-        public bool AlreadyExist(string DirRepresentatne)
+        public void AlreadyExist(string DirRepresentatne, string SubDirAlumno)
         {
             string path = Directory.GetCurrentDirectory(); ;
             string dest = Path.GetFullPath(Path.Combine(path, $@"..\..\Resources\Escuela\{DirRepresentatne} "));
@@ -245,12 +245,18 @@ namespace LogicaNegocio
             if (!Directory.Exists(dest))
             {
                 Directory.CreateDirectory(dest);
+                Directory.CreateDirectory(dest + $@"\{SubDirAlumno}");
+            } else
+            {
+                // dest += $@"\{SubDirAlumno}";
+                if (!Directory.Exists(dest + $@"\{SubDirAlumno}"))
+                {
+                    Directory.CreateDirectory(dest + $@"\{SubDirAlumno}");
+                    
+                }
             }
-            return false;
+            //return false;
         }
-        public void CreateSubDir()
-        {
-
-        }
+        
     }
 }

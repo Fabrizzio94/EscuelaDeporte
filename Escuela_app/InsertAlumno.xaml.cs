@@ -264,22 +264,27 @@ namespace Escuela_app
         {
             handler.ClearFields(grilla);
         }
-
+        private void onChanges_TextRepresentante(object sender, TextChangedEventArgs e)
+        {
+            button_ficha.IsEnabled = String.IsNullOrEmpty(textBox_representante.Text) ? false : true;
+        }
         private void Button_ficha_Click(object sender, RoutedEventArgs e)
         {
-            //if(!(String.IsNullOrEmpty(textBox_representante.Text)))
-            //{
+            if(!(String.IsNullOrEmpty(textBox_representante.Text)))
+            {
                 OpenFileDialog openFileDialog = new OpenFileDialog()
                 {
                     Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg",
                     InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
                 };
 
-                if (openFileDialog.ShowDialog() == true)
+                if (openFileDialog.ShowDialog() == true) { 
                     // txtEditor.Text = File.ReadAllText(openFileDialog.FileName);
                     Console.WriteLine(System.IO.Path.GetFileName(openFileDialog.FileName));
-                handler.CopyFileToFolder(openFileDialog.FileName);
-            //}
+                    //handler.CopyFileToFolder(openFileDialog.FileName); // ruta de la image y destino de la imagen a copiar|| representante y alumno
+                    handler.AlreadyExist(textBox_representante.Text, textBox_nombre.Text);
+                }
+            }
             
         }
     }

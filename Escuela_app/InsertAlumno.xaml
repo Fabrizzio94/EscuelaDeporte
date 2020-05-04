@@ -49,9 +49,9 @@
         </Button>
         <Button x:Name="button_guardar" Content="Guardar" HorizontalAlignment="Left" Margin="184,370,0,0" VerticalAlignment="Top" Width="67" Height="67" Click="Button_guardar_Click" TabIndex="13"/>
         <Label x:Name="label11" Content="Representante: " HorizontalAlignment="Left" Margin="28,312,0,0" VerticalAlignment="Top" FontSize="14"/>
-        <TextBox x:Name="textBox_representante" HorizontalAlignment="Left" Height="23" Margin="139,318,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="348" FontSize="14" IsEnabled="False"/>
+        <TextBox x:Name="textBox_representante" HorizontalAlignment="Left" Height="23" Margin="139,318,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="348" FontSize="14" IsEnabled="False" TextChanged="onChanges_TextRepresentante"/>
         <Button x:Name="button_cancelar" Content="Cancelar" HorizontalAlignment="Left" Margin="474,379,0,0" VerticalAlignment="Top" Width="100" Height="53" Click="Button_cancelar_Click" TabIndex="15" IsTabStop="False"/>
-        <Button x:Name="button_ficha" Content="Ficha medica" HorizontalAlignment="Left" Margin="654,379,0,0" VerticalAlignment="Top" Width="111" Height="53" Click="Button_ficha_Click"/>
+        <Button x:Name="button_ficha" Content="Ficha medica" HorizontalAlignment="Left" Margin="654,379,0,0" VerticalAlignment="Top" Width="111" Height="53" Click="Button_ficha_Click" IsEnabled="False"/>
 
 
     </Grid>
