@@ -27,7 +27,9 @@ namespace Escuela_app
             InitializeComponent();
             AsignacionComboBox();
         }
+        /* instancias */
         private Alumno _MetodosAlumno = new Alumno();
+        private handler_events handler = new handler_events();
         InsertAlumno alumno;
         /* Variables  locales */
         
@@ -89,6 +91,11 @@ namespace Escuela_app
         private void Window_Closed(object sender, EventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void Button_Limpiar_Click(object sender, RoutedEventArgs e)
+        {
+            handler.ClearFields(grilla);
         }
     }
 }

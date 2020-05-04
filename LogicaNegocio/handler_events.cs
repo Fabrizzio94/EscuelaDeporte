@@ -6,20 +6,26 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows.Controls;
+using System.IO;
 
 namespace LogicaNegocio
 {
-    public class metodos_eventos
+    public class handler_events
     {
-
+        /* variables */
+        string path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\Resources\"));
+        string ImagePath = "";
+        /* instances*/
         public ImageSource DrawBitmapGreyscale(string filename)
         {
+            // build the path of the image
+            ImagePath = path + filename;
             // Load the bitmap into a bitmap image object
             var bitmap = new BitmapImage();
 
             bitmap.BeginInit();
             bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            bitmap.UriSource = new Uri(filename);
+            bitmap.UriSource = new Uri(ImagePath);
             bitmap.EndInit();
 
             // Convert the bitmap to greyscale, and draw it.
@@ -32,12 +38,14 @@ namespace LogicaNegocio
         }
         public ImageSource DrawImage(string filename)
         {
+            // build the path of the image
+            ImagePath = path + filename;
             // Load the bitmap into a bitmap image object
             var bitmap = new BitmapImage();
 
             bitmap.BeginInit();
             bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            bitmap.UriSource = new Uri(filename);
+            bitmap.UriSource = new Uri(ImagePath);
             bitmap.EndInit();
             return bitmap;
         }
@@ -57,6 +65,20 @@ namespace LogicaNegocio
                 }
             }
             return validData;
+        }
+        public void ClearFields(Grid grilla)
+        {
+            foreach (Control ctrl in grilla.Children)
+            {
+                if (ctrl is TextBox)
+                    ((TextBox)ctrl).Text = string.Empty;
+                if (ctrl is ComboBox)
+                    ((ComboBox)ctrl).SelectedIndex = 0;
+                if (ctrl is RadioButton)
+                    ((RadioButton)ctrl).IsChecked = false;
+                if (ctrl is DatePicker)
+                    ((DatePicker)ctrl).ClearValue(DatePicker.SelectedDateProperty);
+            }
         }
         public int CalcularEdad(DatePicker fecha)
         {
@@ -203,6 +225,32 @@ namespace LogicaNegocio
             {
                 return false;
             }
+        }
+        public void CopyFileToFolder(string source)
+        {
+            //string source = openFileDialog1.FileName;
+            //string name = "Fabricio";
+            string path = Directory.GetCurrentDirectory();
+            // dest = Directory.GetCurrentDirectory();
+            //Console.WriteLine($@"..\..\Resources\Escuela\{name}");
+            string dest = Path.GetFullPath(Path.Combine(path, @"..\..\Resources\Escuela\")) + Path.GetFileName(source);
+            Console.WriteLine(dest);
+            //File.Copy(source, dest);
+        }
+        public bool AlreadyExist(string DirRepresentatne)
+        {
+            string path = Directory.GetCurrentDirectory(); ;
+            string dest = Path.GetFullPath(Path.Combine(path, $@"..\..\Resources\Escuela\{DirRepresentatne} "));
+            // If directory does not exist, create it. 
+            if (!Directory.Exists(dest))
+            {
+                Directory.CreateDirectory(dest);
+            }
+            return false;
+        }
+        public void CreateSubDir()
+        {
+
         }
     }
 }

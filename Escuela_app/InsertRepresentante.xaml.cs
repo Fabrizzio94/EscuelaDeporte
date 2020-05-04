@@ -27,7 +27,7 @@ namespace Escuela_app
         }
         // instancias //
         private Representante representante = new Representante();
-        private metodos_eventos methods_event = new metodos_eventos();
+        private handler_events handler = new handler_events();
         /* local variables */
         public ERepresentante ERepresentante { get; set; }
         MessageBoxResult result1;
@@ -120,7 +120,7 @@ namespace Escuela_app
             // GetRepresentanteById(textBox_cedula.Text);
             if(textBox_cedula.Text.Length >= 10 )
             {
-                if (methods_event.VerificaIdentificacion(textBox_cedula.Text))
+                if (handler.VerificaIdentificacion(textBox_cedula.Text))
                 {
                     Console.WriteLine("cedula valida");
                     GetRepresentanteById(textBox_cedula.Text);

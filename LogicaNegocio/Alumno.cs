@@ -12,7 +12,10 @@ namespace LogicaNegocio
 {
     public class Alumno
     {
+        // Instances
         private Conexion _conexion = new Conexion();
+        //El uso de la clase StringBuilder nos ayudara a devolver los mensajes de las validaciones
+        public readonly StringBuilder stringBuilder = new StringBuilder();
         /* variables locales */
         /* Listas */
         // provincias
@@ -191,8 +194,37 @@ namespace LogicaNegocio
         {
             return _conexion.getAllAlumno();
         }
-        
-        
-        
+
+        public void SaveAlumno(EAlumno alumno)
+        {
+            _conexion.InsertAlumno(alumno);
+            if (ValidarRepresentante(alumno))
+            {
+               
+                if (_conexion.GetRepresentanteById(alumno.Id_alumno) == null)
+                {
+                    // insert
+                    _conexion.InsertAlumno(alumno);
+                }
+                else
+                {
+                    // update method from Logic layer
+                    _conexion.UpdateAlumno(alumno);
+                }
+            }
+        }
+        private bool ValidarRepresentante(EAlumno alumno)
+        {
+            stringBuilder.Clear();
+
+            /*if (string.IsNullOrEmpty(alumno.Id_representante)) stringBuilder.Append("El campo Cedula es obligatorio");
+            if (string.IsNullOrEmpty(alumno.nomb_representante)) stringBuilder.Append(Environment.NewLine + "El nombre es obligatorio");
+            // if (producto.Precio <= 0) stringBuilder.Append(Environment.NewLine + "El campo Precio es obligatorio");
+            if (string.IsNullOrEmpty(representante.parentesco)) stringBuilder.Append(Environment.NewLine + "El parentesco es obligatorio");
+            if (string.IsNullOrEmpty(representante.celular)) stringBuilder.Append(Environment.NewLine + "El numero celular es obligatorio");
+            */
+            return stringBuilder.Length == 0;
+        }
+
     }
 }

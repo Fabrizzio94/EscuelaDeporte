@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Escuela_app"
+        xmlns:wpftoolkit="http://schemas.microsoft.com/wpf/2008/toolkit"
+        xmlns:filter="clr-namespace:DataGridFilterLibrary;assembly=DataGridFilterLibrary"
         mc:Ignorable="d"
         Title="Inicio" Height="410" Width="735" MinWidth="735" MinHeight="410" MaxWidth="735" MaxHeight="410" Closed="Window_Closed">
-    <Grid>
+    <Grid x:Name="grilla">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="265*"/>
             <ColumnDefinition Width="44*"/>
@@ -22,11 +24,12 @@
         <Label x:Name="label1" Content="Ciudad: " HorizontalAlignment="Left" Margin="239,118,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="23" Width="60"/>
         <ComboBox x:Name="comboBox2_inicio" Grid.ColumnSpan="4" HorizontalAlignment="Left" Margin="304,119,0,0" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
         <DataGrid x:Name="datagridAlumno" HorizontalAlignment="Left" Height="196" Margin="25,165,0,0" VerticalAlignment="Top" Width="681" Grid.ColumnSpan="4" IsReadOnly="True" AutomationProperties.IsColumnHeader="True"
-                  AutoGenerateColumns="False" ItemsSource="{Binding}">
+                  AutoGenerateColumns="False" ItemsSource="{Binding}" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False" >
+            
             <DataGrid.Columns >
+                
                 <DataGridTextColumn Binding="{Binding Path=id_alumno}" Header="Id" ></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Path=nom_alumno}" Header="Nombre" ></DataGridTextColumn>
-
+                <DataGridTextColumn Binding="{Binding Path=nom_alumno}" Header="Nombre"></DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding Path=sexo}" Header="Sexo" ></DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding Path=fecha_nacimiento, StringFormat=\{0:dd-MM-yyyy \}}" Header="Fecha Nacimiento"></DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding Path=edad}" Header="Edad" ></DataGridTextColumn>
@@ -41,7 +44,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="button_Nuevo" Content="Agregar Estudiante" Grid.Column="3" HorizontalAlignment="Left" Margin="132,75,0,0" VerticalAlignment="Top" Width="109" Height="39" Click="Button_Nuevo_Click"/>
-        <Button x:Name="button_Limpiar" Content="Limpiar" Grid.Column="3" HorizontalAlignment="Left" Margin="268,75,0,0" VerticalAlignment="Top" Width="82" Height="39"/>
+        <Button x:Name="button_Limpiar" Content="Limpiar" Grid.Column="3" HorizontalAlignment="Left" Margin="268,75,0,0" VerticalAlignment="Top" Width="82" Height="39" Click="Button_Limpiar_Click"/>
 
     </Grid>
 </Window>

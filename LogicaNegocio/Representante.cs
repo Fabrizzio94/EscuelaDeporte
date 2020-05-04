@@ -28,7 +28,7 @@ namespace LogicaNegocio
                     _conexion.InsertRepresentante(representante);
                 } else {
                     // update method from Logic layer
-                    Console.WriteLine("Entro aqui");
+                    _conexion.UpdateRepresentante(representante);
                 }
             } 
         }
