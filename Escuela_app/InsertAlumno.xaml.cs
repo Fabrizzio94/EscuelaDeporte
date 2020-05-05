@@ -32,6 +32,7 @@ namespace Escuela_app
         private Alumno alumno = new Alumno();
         private handler_events handler = new handler_events();
         public EAlumno EAlumno { get; set; }
+        private string PathFileName { get; set; }
         MainWindow ventana;
         InsertRepresentante WRepresentante;
         // Image imagenBoton;
@@ -65,6 +66,8 @@ namespace Escuela_app
                     this.DialogResult = true;
                     // TraerTodos();
                 }*/
+                // Path of image || Representante || Alumno
+                handler.AlreadyExist(PathFileName, textBox_representante.Text, textBox_nombre.Text);
                 DialogResult = true;
 
             }
@@ -278,11 +281,8 @@ namespace Escuela_app
                     InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
                 };
 
-                if (openFileDialog.ShowDialog() == true) { 
-                    // txtEditor.Text = File.ReadAllText(openFileDialog.FileName);
-                    Console.WriteLine(System.IO.Path.GetFileName(openFileDialog.FileName));
-                    //handler.CopyFileToFolder(openFileDialog.FileName); // ruta de la image y destino de la imagen a copiar|| representante y alumno
-                    handler.AlreadyExist(textBox_representante.Text, textBox_nombre.Text);
+                if (openFileDialog.ShowDialog() == true) {
+                    PathFileName = openFileDialog.FileName;
                 }
             }
             

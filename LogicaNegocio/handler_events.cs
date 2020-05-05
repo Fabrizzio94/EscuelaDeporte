@@ -226,34 +226,31 @@ namespace LogicaNegocio
                 return false;
             }
         }
-        public void CopyFileToFolder(string source)
+        public void CopyFileToFolder(string source, string DirRepresentante, string SubDirAlumno)
         {
-            //string source = openFileDialog1.FileName;
-            //string name = "Fabricio";
             string path = Directory.GetCurrentDirectory();
-            // dest = Directory.GetCurrentDirectory();
-            //Console.WriteLine($@"..\..\Resources\Escuela\{name}");
-            string dest = Path.GetFullPath(Path.Combine(path, @"..\..\Resources\Escuela\")) + Path.GetFileName(source);
-            Console.WriteLine(dest);
-            //File.Copy(source, dest);
+            string dest = Path.GetFullPath(Path.Combine(path, $@"..\..\Resources\Escuela\{DirRepresentante}\{SubDirAlumno}\")) + $"{SubDirAlumno}" + Path.GetExtension(source);
+            File.Copy(source, dest, true);
         }
-        public void AlreadyExist(string DirRepresentatne, string SubDirAlumno)
+        public void AlreadyExist(string source, string DirRepresentatne, string SubDirAlumno)
         {
-            string path = Directory.GetCurrentDirectory(); ;
-            string dest = Path.GetFullPath(Path.Combine(path, $@"..\..\Resources\Escuela\{DirRepresentatne} "));
+            string path = Directory.GetCurrentDirectory();
+            string dest = Path.GetFullPath(Path.Combine(path, $@"..\..\Resources\Escuela\{DirRepresentatne}"));
             // If directory does not exist, create it. 
             if (!Directory.Exists(dest))
             {
                 Directory.CreateDirectory(dest);
                 Directory.CreateDirectory(dest + $@"\{SubDirAlumno}");
-            } else
+                CopyFileToFolder(source, DirRepresentatne, SubDirAlumno);
+            } 
+            if (!Directory.Exists(dest + $@"\{SubDirAlumno}"))
             {
-                // dest += $@"\{SubDirAlumno}";
-                if (!Directory.Exists(dest + $@"\{SubDirAlumno}"))
-                {
-                    Directory.CreateDirectory(dest + $@"\{SubDirAlumno}");
-                    
-                }
+                Directory.CreateDirectory(dest + $@"\{SubDirAlumno}");
+                CopyFileToFolder(source, DirRepresentatne, SubDirAlumno);
+            }
+            if (Directory.Exists(dest) && Directory.Exists(dest+$@"\{SubDirAlumno}"))
+            {
+                CopyFileToFolder(source, DirRepresentatne, SubDirAlumno);
             }
             //return false;
         }

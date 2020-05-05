@@ -10,7 +10,7 @@ namespace ACCESO_DATOS
 {
     public class Conexion
     {
-        string cadena = "Server=localhost; Port=5434; User Id=postgres; Password=admin123; Database= escuela_rony";
+        string cadena = "Server=localhost; Port=5432; User Id=postgres; Password=admin123; Database= escuela_rony"; // cambiar puerto a 5434
         string query = "";
         DataSet datos = new DataSet();
         NpgsqlConnection conexion = new NpgsqlConnection();
