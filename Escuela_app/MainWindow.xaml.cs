@@ -40,7 +40,7 @@ namespace Escuela_app
             comboBox1_inicio.SelectedIndex = 0;
             comboBox1_inicio.ItemsSource = _MetodosAlumno.GetListProvincias();
             // datagridAlumno.ItemsSource = _MetodosAlumno.getAll().Tables[0].DefaultView;
-            datagridAlumno.DataContext = _MetodosAlumno.getAll().Tables[0].DefaultView;
+            datagridAlumno.DataContext = _MetodosAlumno.getAll().Tables[0].DefaultView; // <-- error
         }
 
 

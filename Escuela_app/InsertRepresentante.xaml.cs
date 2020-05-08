@@ -24,6 +24,7 @@ namespace Escuela_app
         public InsertRepresentante()
         {
             InitializeComponent();
+            textBox_cedula.Focus();
         }
         // instancias //
         private Representante representante = new Representante();
@@ -122,12 +123,12 @@ namespace Escuela_app
             {
                 if (handler.VerificaIdentificacion(textBox_cedula.Text))
                 {
-                    Console.WriteLine("cedula valida");
+                    textBox_cedula.Foreground = Brushes.Green;
                     GetRepresentanteById(textBox_cedula.Text);
                 }
                 else
                 {
-                    Console.WriteLine("cedula invalida");
+                    textBox_cedula.Foreground = Brushes.Black;
                 }
             }
             

@@ -15,6 +15,7 @@ using System.IO;
 using LogicaNegocio;
 using Entidades;
 using Microsoft.Win32;
+using System.Security;
 
 namespace Escuela_app
 {
@@ -33,6 +34,7 @@ namespace Escuela_app
         private handler_events handler = new handler_events();
         public EAlumno EAlumno { get; set; }
         private string PathFileName { get; set; }
+        List<string> PathFileNames = new List<string>();
         MainWindow ventana;
         InsertRepresentante WRepresentante;
         // Image imagenBoton;
@@ -67,7 +69,7 @@ namespace Escuela_app
                     // TraerTodos();
                 }*/
                 // Path of image || Representante || Alumno
-                handler.AlreadyExist(PathFileName, textBox_representante.Text, textBox_nombre.Text);
+                SaveFilesMediaToFolderAlumno();
                 DialogResult = true;
 
             }
@@ -104,7 +106,54 @@ namespace Escuela_app
             if (fechaActual < fecha.SelectedDate.Value.AddYears(edad)) edad--;
             return edad;
         }
-        
+        public void OpenFileDialogToPath(bool AllowMultiSelect)
+        {
+            try
+            {
+                if (!(String.IsNullOrEmpty(textBox_representante.Text)))
+                {
+                    OpenFileDialog openFileDialog = new OpenFileDialog()
+                    {
+                        Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg",
+                        InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        Multiselect = AllowMultiSelect
+                    };
+
+                    if (openFileDialog.ShowDialog() == true)
+                    {
+                        
+                        if (AllowMultiSelect)
+                        {
+                            PathFileNames = openFileDialog.FileNames.ToList();
+                        } else
+                        {
+                            PathFileName = openFileDialog.FileName;
+                        }
+                    }
+                }
+            }
+            catch (SecurityException ex)
+            {
+                // The user lacks appropriate permissions to read files, discover paths, etc.
+                MessageBox.Show("Security error. Please contact your administrator for details.\n\n" +
+                    "Error message: " + ex.Message + "\n\n" +
+                    "Details (send to Support):\n\n" + ex.StackTrace
+                );
+            }
+            catch (Exception ex)
+            {
+                // Could not load the image - probably related to Windows file system permissions.
+                MessageBox.Show("Cannot display the image: " + PathFileName.Substring(PathFileName.LastIndexOf('\\'))
+                    + ". You may not have permission to read the file, or " +
+                    "it may be corrupt.\n\nReported error: " + ex.Message);
+            }
+            
+        }
+        public void SaveFilesMediaToFolderAlumno()
+        {
+            handler.AlreadyExist(PathFileName, textBox_representante.Text, textBox_nombre.Text);
+            handler.MultiImagesToPDF(PathFileNames, textBox_representante.Text, textBox_nombre.Text);
+        }
         // events 
         private void Button_representante_Click(object sender, RoutedEventArgs e)
         {
@@ -270,22 +319,16 @@ namespace Escuela_app
         private void onChanges_TextRepresentante(object sender, TextChangedEventArgs e)
         {
             button_ficha.IsEnabled = String.IsNullOrEmpty(textBox_representante.Text) ? false : true;
+            button_fotoAlumno.IsEnabled = String.IsNullOrEmpty(textBox_representante.Text) ? false : true;
         }
         private void Button_ficha_Click(object sender, RoutedEventArgs e)
         {
-            if(!(String.IsNullOrEmpty(textBox_representante.Text)))
-            {
-                OpenFileDialog openFileDialog = new OpenFileDialog()
-                {
-                    Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg",
-                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-                };
+            OpenFileDialogToPath(true);
+        }
 
-                if (openFileDialog.ShowDialog() == true) {
-                    PathFileName = openFileDialog.FileName;
-                }
-            }
-            
+        private void Button_fotoAlumno_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialogToPath(false);
         }
     }
 }

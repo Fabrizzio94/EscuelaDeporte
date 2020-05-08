@@ -7,6 +7,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows.Controls;
 using System.IO;
+// iText 7
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
+using iText.IO.Image;
+using PageSize = iText.Kernel.Geom.PageSize;
+using Image = iText.Layout.Element.Image;
 
 namespace LogicaNegocio
 {
@@ -46,6 +54,8 @@ namespace LogicaNegocio
             bitmap.BeginInit();
             bitmap.CacheOption = BitmapCacheOption.OnLoad;
             bitmap.UriSource = new Uri(ImagePath);
+            //bitmap.DecodePixelHeight = 10;
+            //bitmap.DecodePixelWidth = 10;
             bitmap.EndInit();
             return bitmap;
         }
@@ -61,7 +71,7 @@ namespace LogicaNegocio
                     // Console.WriteLine(control.Name);
                     TextBox textbox = control as TextBox;
                     validData &= !string.IsNullOrWhiteSpace(textbox.Text);
-                    
+
                 }
             }
             return validData;
@@ -242,18 +252,46 @@ namespace LogicaNegocio
                 Directory.CreateDirectory(dest);
                 Directory.CreateDirectory(dest + $@"\{SubDirAlumno}");
                 CopyFileToFolder(source, DirRepresentatne, SubDirAlumno);
-            } 
+            }
             if (!Directory.Exists(dest + $@"\{SubDirAlumno}"))
             {
                 Directory.CreateDirectory(dest + $@"\{SubDirAlumno}");
                 CopyFileToFolder(source, DirRepresentatne, SubDirAlumno);
             }
-            if (Directory.Exists(dest) && Directory.Exists(dest+$@"\{SubDirAlumno}"))
+            if (Directory.Exists(dest) && Directory.Exists(dest + $@"\{SubDirAlumno}"))
             {
                 CopyFileToFolder(source, DirRepresentatne, SubDirAlumno);
             }
-            //return false;
         }
         
+        public void MultiImagesToPDF(List<string> list, string DirRepresentante ,string SubDirAlumno)
+        {
+            try
+            {
+                //
+                //
+                string path = Directory.GetCurrentDirectory();
+                string dest = Path.GetFullPath(Path.Combine(path, $@"..\..\Resources\Escuela\{DirRepresentante}\{SubDirAlumno}\")) + $"ficha_medica_{SubDirAlumno}" + ".pdf";
+                Image img = new Image(ImageDataFactory.Create(list[0]));
+
+                PdfDocument pdf = new PdfDocument(new PdfWriter(dest));// + $"\ficha_medica_{SubDirAlumno}" + ".pdf"));
+                Document document = new Document(pdf, new PageSize(img.GetImageWidth(), img.GetImageHeight()));
+                int i = 0;
+                foreach (string file in list)
+                {
+                    
+                    img = new Image(ImageDataFactory.Create(file));
+                    pdf.AddNewPage(new PageSize(img.GetImageWidth(), img.GetImageHeight()));
+                    img.SetFixedPosition(i + 1, 0, 0);
+                    document.Add(img);
+                    i++;
+                }
+                document.Close();
+            }
+            catch(IOException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
     }
 }
