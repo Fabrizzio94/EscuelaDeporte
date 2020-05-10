@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows.Controls;
+using Image = System.Windows.Controls.Image;
 using System.IO;
 // iText 7
 using iText.Kernel.Pdf;
@@ -14,7 +15,8 @@ using iText.Layout.Element;
 using iText.Layout.Properties;
 using iText.IO.Image;
 using PageSize = iText.Kernel.Geom.PageSize;
-using Image = iText.Layout.Element.Image;
+using Imagen = iText.Layout.Element.Image;
+using System.Windows;
 
 namespace LogicaNegocio
 {
@@ -24,43 +26,31 @@ namespace LogicaNegocio
         string path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\Resources\"));
         string ImagePath = "";
         /* instances*/
-        public ImageSource DrawBitmapGreyscale(string filename)
+        public ImageSource DrawImage(string filename, string Filename)
         {
             // build the path of the image
-            ImagePath = path + filename;
+            if (String.IsNullOrEmpty(Filename))
+            {
+                ImagePath = path + filename;
+            } else
+            {
+                ImagePath = Filename;
+            }
+            
+            
             // Load the bitmap into a bitmap image object
             var bitmap = new BitmapImage();
 
             bitmap.BeginInit();
             bitmap.CacheOption = BitmapCacheOption.OnLoad;
             bitmap.UriSource = new Uri(ImagePath);
-            bitmap.EndInit();
-
-            // Convert the bitmap to greyscale, and draw it.
-            FormatConvertedBitmap myFormatedConvertedBitmap = new FormatConvertedBitmap();
-            myFormatedConvertedBitmap.BeginInit();
-            myFormatedConvertedBitmap.Source = bitmap;
-            myFormatedConvertedBitmap.DestinationFormat = PixelFormats.Gray8;
-            myFormatedConvertedBitmap.EndInit();
-            return myFormatedConvertedBitmap;
-        }
-        public ImageSource DrawImage(string filename)
-        {
-            // build the path of the image
-            ImagePath = path + filename;
-            // Load the bitmap into a bitmap image object
-            var bitmap = new BitmapImage();
-
-            bitmap.BeginInit();
-            bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            bitmap.UriSource = new Uri(ImagePath);
-            //bitmap.DecodePixelHeight = 10;
-            //bitmap.DecodePixelWidth = 10;
+            //bitmap.DecodePixelHeight = 100;
+            //bitmap.DecodePixelWidth = 100;
             bitmap.EndInit();
             return bitmap;
         }
 
-        public bool ValidateTextFilled(Grid grilla, Button button_representante)
+        public bool ValidateTextFilled(Grid grilla)
         {
             bool validData = true;
             // Control control in grilla.Children.OfType<TextBox>()
@@ -76,10 +66,22 @@ namespace LogicaNegocio
             }
             return validData;
         }
-        public void ClearFields(Grid grilla)
+        public void ClearFields(Grid grid)
         {
-            foreach (Control ctrl in grilla.Children)
+            
+            /// GetAll UIElement
+            UIElementCollection element = grid.Children;
+
+            /// casting the UIElementCollection into List
+            List<FrameworkElement> lstElement = element.Cast<FrameworkElement>().ToList();
+
+            /// Geting all Control from list
+            var lstControl = lstElement.OfType<Control>();
+
+            foreach (Control ctrl in lstControl)
             {
+                ///Hide all Controls
+                
                 if (ctrl is TextBox)
                     ((TextBox)ctrl).Text = string.Empty;
                 if (ctrl is ComboBox)
@@ -272,7 +274,7 @@ namespace LogicaNegocio
                 //
                 string path = Directory.GetCurrentDirectory();
                 string dest = Path.GetFullPath(Path.Combine(path, $@"..\..\Resources\Escuela\{DirRepresentante}\{SubDirAlumno}\")) + $"ficha_medica_{SubDirAlumno}" + ".pdf";
-                Image img = new Image(ImageDataFactory.Create(list[0]));
+                Imagen img = new Imagen(ImageDataFactory.Create(list[0]));
 
                 PdfDocument pdf = new PdfDocument(new PdfWriter(dest));// + $"\ficha_medica_{SubDirAlumno}" + ".pdf"));
                 Document document = new Document(pdf, new PageSize(img.GetImageWidth(), img.GetImageHeight()));
@@ -280,7 +282,7 @@ namespace LogicaNegocio
                 foreach (string file in list)
                 {
                     
-                    img = new Image(ImageDataFactory.Create(file));
+                    img = new Imagen(ImageDataFactory.Create(file));
                     pdf.AddNewPage(new PageSize(img.GetImageWidth(), img.GetImageHeight()));
                     img.SetFixedPosition(i + 1, 0, 0);
                     document.Add(img);

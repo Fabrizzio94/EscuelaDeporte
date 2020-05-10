@@ -16,13 +16,16 @@ using LogicaNegocio;
 using Entidades;
 using Microsoft.Win32;
 using System.Security;
-
+// metro desing
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.Behaviours;
 namespace Escuela_app
 {
     /// <summary>
     /// Lógica de interacción para InsertAlumno.xaml
     /// </summary>
-    public partial class InsertAlumno : Window
+    public partial class InsertAlumno : MetroWindow
     {
         public InsertAlumno()
         {
@@ -87,10 +90,6 @@ namespace Escuela_app
             comboBox_sangre.SelectedIndex = 0;
             comboBox_provincia.ItemsSource = alumno.GetListProvincias();
             comboBox_sangre.ItemsSource = alumno.getBloodType();
-            //imagenBoton = button_representante.FindName("imagen_repre") as Image;
-            // imagenBoton.Source = (handler.DrawBitmapGreyscale("representant.png"));
-            GetImageButtom(button_representante, "imagen_repre").Source = (handler.DrawBitmapGreyscale("representant.png"));
-            GetImageButtom(button_limpiar, "imagen_limpiar").Source = handler.DrawImage("clean.png");
             textBox_cedula.Focus();
         }
         private Image GetImageButtom(Button boton, string name)
@@ -276,17 +275,7 @@ namespace Escuela_app
         // draw the representante image button
         private void TextBoxes_TextChanged(object sender, TextChangedEventArgs e)
         {
-            button_representante.IsEnabled = handler.ValidateTextFilled(grilla, button_representante);
-            if (button_representante.IsEnabled)
-            {
-                // imagenBoton.Source = handler.DrawImage("representant.png");
-                GetImageButtom(button_representante, "imagen_repre").Source = handler.DrawImage("representant.png");
-            }
-            else
-            {
-                // imagenBoton.Source = handler.DrawBitmapGreyscale("representant.png");
-                GetImageButtom(button_representante, "imagen_repre").Source = handler.DrawBitmapGreyscale("representant.png");
-            }
+            button_representante.IsEnabled = handler.ValidateTextFilled(grilla);
         }
 
         private void Button_guardar_Click(object sender, RoutedEventArgs e)
@@ -315,11 +304,13 @@ namespace Escuela_app
         private void Button_limpiar_Click(object sender, RoutedEventArgs e)
         {
             handler.ClearFields(grilla);
+            imagenAlumno.Source = handler.DrawImage("df_alumno.png", null);
         }
         private void onChanges_TextRepresentante(object sender, TextChangedEventArgs e)
         {
             button_ficha.IsEnabled = String.IsNullOrEmpty(textBox_representante.Text) ? false : true;
             button_fotoAlumno.IsEnabled = String.IsNullOrEmpty(textBox_representante.Text) ? false : true;
+            button_guardar.IsEnabled = String.IsNullOrEmpty(textBox_representante.Text) ? false : true;
         }
         private void Button_ficha_Click(object sender, RoutedEventArgs e)
         {
@@ -329,6 +320,10 @@ namespace Escuela_app
         private void Button_fotoAlumno_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialogToPath(false);
+            if (PathFileName != null)
+            {
+                imagenAlumno.Source = handler.DrawImage("", PathFileName);
+            }
         }
     }
 }

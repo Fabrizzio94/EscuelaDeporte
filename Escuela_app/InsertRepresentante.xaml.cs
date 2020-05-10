@@ -11,7 +11,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+// metro desing
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.Behaviours;
 using LogicaNegocio;
 using Entidades;
 namespace Escuela_app
@@ -19,7 +22,7 @@ namespace Escuela_app
     /// <summary>
     /// Lógica de interacción para InsertRepresentante.xaml
     /// </summary>
-    public partial class InsertRepresentante : Window, IDisposable
+    public partial class InsertRepresentante : MetroWindow, IDisposable
     {
         public InsertRepresentante()
         {
