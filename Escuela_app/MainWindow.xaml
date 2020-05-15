@@ -6,54 +6,71 @@
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:Escuela_app"
         xmlns:wpftoolkit="http://schemas.microsoft.com/wpf/2008/toolkit"
-        xmlns:filter="clr-namespace:DataGridFilterLibrary;assembly=DataGridFilterLibrary"
         mc:Ignorable="d"
-        Title="Inicio" Height="410" Width="735" MinWidth="735" MinHeight="410" MaxWidth="735" MaxHeight="410" Closed="Window_Closed" WindowStartupLocation="CenterScreen" Background="Gainsboro"
+        Title="Inicio" Height="493.5" Width="1065.5" MinWidth="735" MinHeight="450"  Closed="Window_Closed" WindowStartupLocation="CenterScreen" Background="Gainsboro"
         BorderThickness="0" 
         GlowBrush="Black"
         ResizeMode="CanResizeWithGrip"
-        WindowTransitionsEnabled="False"              
+        WindowTransitionsEnabled="True"              
         >
-    
-    <Grid x:Name="grilla">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="265*"/>
-            <ColumnDefinition Width="44*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="323*"/>
-        </Grid.ColumnDefinitions>
-        <Label x:Name="cedula" Content="Cedula: " HorizontalAlignment="Left" Margin="25,27,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.234,-0.001"/>
-        <TextBox x:Name="textBox1_inicio" HorizontalAlignment="Left" Height="23" Margin="83,31,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" KeyDown="TextBox1_inicio_KeyDown" PreviewKeyDown="TextBox1_inicio_PreviewKeyDown" 
-                 Controls:TextBoxHelper.Watermark="Ingrese cedula" />
-        <Label x:Name="label_inicio" Content="Nombre: " HorizontalAlignment="Left" Margin="19,72,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox2_inicio" HorizontalAlignment="Left" Height="23" Margin="83,72,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="370" Grid.ColumnSpan="4"
-                 Controls:TextBoxHelper.Watermark="Ingrese Nombre de alumno a buscar"/>
-        <Label x:Name="label" Content="Provincia: " HorizontalAlignment="Left" Margin="14,115,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="comboBox1_inicio" HorizontalAlignment="Left" Margin="83,118,0,0" VerticalAlignment="Top" Width="120" IsReadOnly="True" SelectionChanged="ComboBox1_inicio_SelectionChanged"/>
-        <Label x:Name="label1" Content="Ciudad: " HorizontalAlignment="Left" Margin="239,118,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="23" Width="60"/>
-        <ComboBox x:Name="comboBox2_inicio" Grid.ColumnSpan="4" HorizontalAlignment="Left" Margin="304,119,0,0" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
-        <DataGrid x:Name="datagridAlumno" HorizontalAlignment="Left" Height="196" Margin="25,165,0,0" VerticalAlignment="Top" Width="681" Grid.ColumnSpan="4" IsReadOnly="True" AutomationProperties.IsColumnHeader="True"
-                  AutoGenerateColumns="False" ItemsSource="{Binding}" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False" >
+    <Controls:MetroWindow.Resources>
+        <Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader" BasedOn="{StaticResource MetroDataGridColumnHeader}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+    </Controls:MetroWindow.Resources>
+    <DockPanel LastChildFill="True" Margin="28 15 28 10">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Margin="5 7 5 10">
+            <Label x:Name="label_1" Content="Cedula: " RenderTransformOrigin="-0.234,-0.001"/>
+            <TextBox x:Name="textBox_cedula" Height="23" TextWrapping="Wrap" Text="" Margin="0 2 0 2"  Width="120" KeyDown="TextBox1_inicio_KeyDown" PreviewKeyDown="TextBox1_inicio_PreviewKeyDown" 
+                     Controls:TextBoxHelper.Watermark="Ingrese cedula"  TextChanged="TextBoxes_Changes" />
+            <Label x:Name="label_2" Content="Nombre: " Margin="10 0 0 0"/>
+            <TextBox x:Name="textBox_nombre"  Height="23"  TextWrapping="Wrap" Text=""  Width="300" 
+                     Controls:TextBoxHelper.Watermark="Ingrese Nombre de alumno a buscar" Margin="0 2 0 2" TextChanged="TextBoxes_Changes"/>
 
-            <DataGrid.Columns >
+            <Label x:Name="label_3" Content="Sexo: " Margin="10 0 0 0"/>
+            <ComboBox x:Name="comboBox1_sexo" IsReadOnly="True" Margin="0 2 0 2" MinWidth="115" IsEditable="False" Controls:TextBoxHelper.Watermark="--Seleccione--" SelectionChanged="TextBoxes_Changes" SelectedValuePath="Content">
+                <ComboBoxItem>Masculino</ComboBoxItem>
+                <ComboBoxItem>Femenino</ComboBoxItem>
+            </ComboBox>
+            <Label x:Name="label_4" Content="Fecha Nacimiento: " Margin="10 0 0 0"/>
+            <DatePicker x:Name="fecha_nacimiento" Margin="0 2 0 2" SelectedDateChanged="TextBoxes_Changes"/>
 
-                <DataGridTextColumn Binding="{Binding Path=id_alumno}" Header="Id" ></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Path=nom_alumno}" Header="Nombre"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Path=sexo}" Header="Sexo" ></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Path=fecha_nacimiento, StringFormat=\{0:dd-MM-yyyy \}}" Header="Fecha Nacimiento"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Path=edad}" Header="Edad" ></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Path=ciudad}" Header="Ciudad" ></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Path=provincia}" Header="Provincia" ></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Path=nacionalidad}" Header="Nacionalidad" ></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Path=direccion_dom}" Header="Dirección" ></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Path=tipo_sangre}" Header="Tipo Sangre" ></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Path=num_uniforme}" Header="Uniforme" ></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Path=nombre}" Header="Represetante" ></DataGridTextColumn>
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="5 3 5 14">
+            <Label x:Name="label_5" Content="Ciudad: " Height="23" Width="auto" Padding="3 3 0 0"/>
+            <TextBox x:Name="textbox_ciudad" MinWidth="120"  Margin="5 2 0 2" Controls:TextBoxHelper.Watermark="Ingrese ciudad" TextChanged="TextBoxes_Changes"/>
+            <Label x:Name="label_6" Content="Estado: " Height="23" Width="auto" Padding="15 3 0 0"/>
+            <CheckBox x:Name="checkbox_estado" Content="Activo" IsChecked="True" Margin="10 0 0 0" Click="TextBoxes_Changes"/>
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 20 0 10">
+            <Button x:Name="button_Nuevo" Content="Agregar Estudiante"  Width="auto" Height="39" Click="Button_Nuevo_Click" VerticalAlignment="Center" Margin="0 0 30 0" Padding="8 0 8 0"/>
+            <Button x:Name="button_Limpiar" Content="Limpiar"  Width="auto" Height="39" Click="Button_Limpiar_Click" VerticalAlignment="Center" Margin="30 0 0 0" Padding="8 0 8 0"/>
 
-            </DataGrid.Columns>
-        </DataGrid>
-        <Button x:Name="button_Nuevo" Content="Agregar Estudiante" Grid.Column="3" HorizontalAlignment="Left" Margin="132,75,0,0" VerticalAlignment="Top" Width="109" Height="39" Click="Button_Nuevo_Click"/>
-        <Button x:Name="button_Limpiar" Content="Limpiar" Grid.Column="3" HorizontalAlignment="Left" Margin="268,75,0,0" VerticalAlignment="Top" Width="82" Height="39" Click="Button_Limpiar_Click"/>
+        </StackPanel>
+        
+        <Grid x:Name="grilla">
+                   
+            <DataGrid x:Name="datagridAlumno"  IsReadOnly="True" AutomationProperties.IsColumnHeader="True"
+                      AutoGenerateColumns="False" CanUserAddRows="False"  CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False" ColumnWidth="*">
 
-    </Grid>
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn Binding="{Binding Path=id_alumno}" Header="Cédula" Width="auto" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Binding="{Binding Path=nom_alumno}" Header="Nombre" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Binding="{Binding Path=sexo}" Header="Sexo" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Binding="{Binding Path=fecha_nacimiento, StringFormat=\{0:dd-MM-yyyy \}}" Header="Fecha Nacimiento" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Binding="{Binding Path=edad}" Header="Edad" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Binding="{Binding Path=ciudad}" Header="Ciudad" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Binding="{Binding Path=provincia}" Header="Provincia" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Binding="{Binding Path=nacionalidad}" Header="Nacionalidad" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Binding="{Binding Path=direccion_dom}" Header="Dirección" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Binding="{Binding Path=tipo_sangre}" Header="Tipo Sangre" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Binding="{Binding Path=num_uniforme}" Header="Uniforme" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn Binding="{Binding Path=nombre}" Header="Represetante" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridCheckBoxColumn Binding="{Binding Path=estado_alumno}" Header="Activo" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            
+        </Grid>
+    </DockPanel>
 </Controls:MetroWindow>

@@ -22,5 +22,7 @@ namespace Entidades
         public string tipo_sangre { get; set; }
         public int num_uniforme { get; set; }
         public string id_representante { get; set; }
+        public DateTime fecha_registro { get; set; }
+        public bool estado { get; set; }
     }
 }

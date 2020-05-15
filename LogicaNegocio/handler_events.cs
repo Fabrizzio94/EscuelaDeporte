@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows.Controls;
+using System.Drawing;
 using Image = System.Windows.Controls.Image;
 using System.IO;
 // iText 7
@@ -49,7 +50,7 @@ namespace LogicaNegocio
             bitmap.EndInit();
             return bitmap;
         }
-
+        
         public bool ValidateTextFilled(Grid grilla)
         {
             bool validData = true;
@@ -240,9 +241,16 @@ namespace LogicaNegocio
         }
         public void CopyFileToFolder(string source, string DirRepresentante, string SubDirAlumno)
         {
-            string path = Directory.GetCurrentDirectory();
-            string dest = Path.GetFullPath(Path.Combine(path, $@"..\..\Resources\Escuela\{DirRepresentante}\{SubDirAlumno}\")) + $"{SubDirAlumno}" + Path.GetExtension(source);
-            File.Copy(source, dest, true);
+            try
+            {
+                string path = Directory.GetCurrentDirectory();
+                string dest = Path.GetFullPath(Path.Combine(path, $@"..\..\Resources\Escuela\{DirRepresentante}\{SubDirAlumno}\")) + $"{SubDirAlumno}" + Path.GetExtension(source);
+                File.Copy(source, dest, true);
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
         public void AlreadyExist(string source, string DirRepresentatne, string SubDirAlumno)
         {
@@ -259,6 +267,7 @@ namespace LogicaNegocio
             {
                 Directory.CreateDirectory(dest + $@"\{SubDirAlumno}");
                 CopyFileToFolder(source, DirRepresentatne, SubDirAlumno);
+                return;
             }
             if (Directory.Exists(dest) && Directory.Exists(dest + $@"\{SubDirAlumno}"))
             {
@@ -292,7 +301,7 @@ namespace LogicaNegocio
             }
             catch(IOException e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine("erro es " + e.Message);
             }
         }
     }

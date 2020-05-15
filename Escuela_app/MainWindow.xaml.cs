@@ -18,6 +18,8 @@ using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Behaviours;
 using Entidades;
 using LogicaNegocio;
+using System.Data;
+
 namespace Escuela_app
 {
     /// <summary>
@@ -34,16 +36,32 @@ namespace Escuela_app
         private Alumno _MetodosAlumno = new Alumno();
         private handler_events handler = new handler_events();
         InsertAlumno alumno;
+        DataTable datos = new DataTable();
         /* Variables  locales */
-        
+
         /* methods */
-        public void AsignacionComboBox ()
+        public  void AsignacionComboBox ()
         {
-            comboBox1_inicio.Items.Clear();
+            /*comboBox1_inicio.Items.Clear();
             comboBox1_inicio.SelectedIndex = 0;
-            comboBox1_inicio.ItemsSource = _MetodosAlumno.GetListProvincias();
+            comboBox1_inicio.ItemsSource = _MetodosAlumno.GetListProvincias();*/
             // datagridAlumno.ItemsSource = _MetodosAlumno.getAll().Tables[0].DefaultView;
-            datagridAlumno.DataContext = _MetodosAlumno.getAll().Tables[0].DefaultView; // <-- error
+            //datagridAlumno.DataContext = _MetodosAlumno.getAll().Tables[0].DefaultView; // <-- error
+            
+        }
+        private void TextBoxes_Changes(object sender, EventArgs e)
+        {
+            try
+            {
+                string SexoVal = comboBox1_sexo.SelectedIndex != -1  ? comboBox1_sexo.SelectedValue.ToString() : "";
+                DateTime FechaVal = fecha_nacimiento.SelectedDate != null ? fecha_nacimiento.SelectedDate.Value.Date: DateTime.Today.Date;
+                datagridAlumno.ItemsSource = _MetodosAlumno.GetAllumnosByFields(textBox_cedula.Text, textBox_nombre.Text, SexoVal, FechaVal, textbox_ciudad.Text.ToUpper(), Convert.ToBoolean(checkbox_estado.IsChecked)).Tables[0].DefaultView;
+            }
+            catch (Exception er)
+            {
+                Console.Write(er.Message);
+            }
+            
         }
 
 
@@ -67,23 +85,7 @@ namespace Escuela_app
             } else { e.Handled = false; }
         }
 
-        private void ComboBox1_inicio_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var ListaCiudades = new List<string>();
-            // comboBox2_inicio.Items.Clear();
-            comboBox2_inicio.IsEnabled = true;
-            string item = comboBox1_inicio.SelectedItem.ToString();
-            if(_MetodosAlumno.retrieveAllCitiesByProvince(item) == null)
-            {
-                comboBox2_inicio.IsEnabled = false;
-            } else { 
-                ListaCiudades = _MetodosAlumno.retrieveAllCitiesByProvince(item);
-            }
-            comboBox2_inicio.ItemsSource = ListaCiudades;
-            comboBox2_inicio.SelectedIndex = 0;
-
-        }
-
+       
         private void Button_Nuevo_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
@@ -98,7 +100,7 @@ namespace Escuela_app
 
         private void Button_Limpiar_Click(object sender, RoutedEventArgs e)
         {
-            handler.ClearFields(grilla);
+            //handler.ClearFields(grilla);
         }
     }
 }

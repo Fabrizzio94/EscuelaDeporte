@@ -16,6 +16,7 @@ using LogicaNegocio;
 using Entidades;
 using Microsoft.Win32;
 using System.Security;
+using System.Drawing;
 // metro desing
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -50,16 +51,17 @@ namespace Escuela_app
                 if (EAlumno == null) EAlumno = new EAlumno();
                 EAlumno.Id_alumno = textBox_cedula.Text;
                 EAlumno.nomb_alumno = textBox_nombre.Text;
-                // EAlumno.sexo = radioButton_masculino.Content.ToString();
                 EAlumno.fecha_nacimiento = fecha_nacimiento.SelectedDate.Value;
                 EAlumno.edad = Convert.ToInt32(textBox_edad.Text);
-                EAlumno.ciudad = comboBox_ciudad.SelectedItem.ToString();
-                EAlumno.provincia = comboBox_provincia.SelectedItem.ToString();
+                EAlumno.ciudad = comboBox_ciudad.SelectedItem.ToString().ToUpper();
+                EAlumno.provincia = comboBox_provincia.SelectedItem.ToString().ToUpper();
                 EAlumno.nacionalidad = textBox_nacional.Text;
                 EAlumno.direccion_dom = textBox_direccion.Text;
                 EAlumno.tipo_sangre = comboBox_sangre.SelectedItem.ToString();
                 EAlumno.num_uniforme = Convert.ToInt32(textBox_uniforme.Text);
                 EAlumno.id_representante = WRepresentante.ERepresentante.Id_representante;
+                EAlumno.fecha_registro = DateTime.Today;
+                EAlumno.estado = true;
                 alumno.SaveAlumno(EAlumno);
                 /*if (alumno.stringBuilder.Length != 0)
                 {
@@ -92,12 +94,12 @@ namespace Escuela_app
             comboBox_sangre.ItemsSource = alumno.getBloodType();
             textBox_cedula.Focus();
         }
-        private Image GetImageButtom(Button boton, string name)
+        /*private Image GetImageButtom(Button boton, string name)
         {
             Image imagenBoton;
             imagenBoton = boton.FindName(name) as Image;
             return imagenBoton;
-        }
+        }*/
         int calcularEdad(DatePicker fecha)
         {
             DateTime fechaActual = DateTime.Today;
@@ -109,8 +111,8 @@ namespace Escuela_app
         {
             try
             {
-                if (!(String.IsNullOrEmpty(textBox_representante.Text)))
-                {
+                //if (!(String.IsNullOrEmpty(textBox_representante.Text)))
+                //{
                     OpenFileDialog openFileDialog = new OpenFileDialog()
                     {
                         Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg",
@@ -129,7 +131,7 @@ namespace Escuela_app
                             PathFileName = openFileDialog.FileName;
                         }
                     }
-                }
+                //}
             }
             catch (SecurityException ex)
             {
@@ -281,6 +283,7 @@ namespace Escuela_app
         private void Button_guardar_Click(object sender, RoutedEventArgs e)
         {
             GuardarAlumno();
+            Button_limpiar_Click(sender, e);
         }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
@@ -323,6 +326,7 @@ namespace Escuela_app
             if (PathFileName != null)
             {
                 imagenAlumno.Source = handler.DrawImage("", PathFileName);
+                //imagenAlumno.Source = handler.Convert(handler.ImageWpfToGDI(handler.DrawImage("", PathFileName)));
             }
         }
     }

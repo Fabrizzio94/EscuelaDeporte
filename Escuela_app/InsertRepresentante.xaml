@@ -13,11 +13,11 @@
         <Label x:Name="label1" Content="Nombre: " HorizontalAlignment="Left" Margin="275,41,0,0" VerticalAlignment="Top" FontSize="14"/>
         <TextBox x:Name="textBox_nombre" HorizontalAlignment="Left" Height="23" Margin="275,70,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="285" FontSize="14" Controls:TextBoxHelper.Watermark="Ingrese nombre"/>
         <Label x:Name="label2" Content="Parentesco: " HorizontalAlignment="Left" Margin="44,96,0,0" VerticalAlignment="Top" FontSize="14"/>
-        <TextBox x:Name="textBox_parentesco" HorizontalAlignment="Left" Height="23" Margin="44,125,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="172" FontSize="14"/>
+        <TextBox x:Name="textBox_parentesco" HorizontalAlignment="Left" Height="23" Margin="44,125,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="181" FontSize="14" Controls:TextBoxHelper.Watermark="Parentesco con el alumno"/>
         <Label x:Name="label3" Content="Celular: " HorizontalAlignment="Left" Margin="275,96,0,0" VerticalAlignment="Top" FontSize="14"/>
-        <TextBox x:Name="textBox_celular" HorizontalAlignment="Left" Height="23" Margin="275,125,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" FontSize="14"/>
+        <TextBox x:Name="textBox_celular" HorizontalAlignment="Left" Height="23" Margin="275,125,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="159" FontSize="14" Controls:TextBoxHelper.Watermark="# de celular"/>
         <Label x:Name="label4" Content="Observaciones: " HorizontalAlignment="Left" Margin="33,184,0,0" VerticalAlignment="Top" FontSize="14"/>
-        <TextBox x:Name="textBox_observacion" HorizontalAlignment="Left" Height="105" Margin="33,215,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="661" FontSize="14" BorderThickness="3"/>
+        <TextBox x:Name="textBox_observacion" HorizontalAlignment="Left" Height="105" Margin="33,215,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="661" FontSize="14" BorderThickness="3" Controls:TextBoxHelper.Watermark="Ingrese alguna observación respecto al alumno y/o representante."/>
         <Button x:Name="button_guardar" Content="Guardar" HorizontalAlignment="Left" Margin="140,357,0,0" VerticalAlignment="Top" Width="76" Height="35" Click="Button_guardar_Click"/>
         <Button x:Name="button_cancelar" Content="Cancelar" HorizontalAlignment="Left" Margin="392,357,0,0" VerticalAlignment="Top" Width="74" Height="35" Click="Button_cancelar_Click"/>
 

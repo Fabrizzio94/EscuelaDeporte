@@ -129,9 +129,9 @@ namespace ACCESO_DATOS
                 conexion.Open();*/
                 // if (conexion.State == ConnectionState.Open) { }
                 query = @"INSERT INTO alumno (id_alumno, nom_alumno,sexo, fecha_nacimiento,edad,ciudad,provincia,nacionalidad,
-                                               direccion_dom,tipo_sangre,num_uniforme,id_representante)
+                                               direccion_dom,tipo_sangre,num_uniforme,id_representante,fecha_registro,estado_alumno)
                                                VALUES (@id_alumno,@nombre,@sexo,@fecha_nacimiento,@edad,@ciudad,@provincia,@nacionalidad,
-                                                        @direccion,@tipo_sangre,@uniforme,@representante)";
+                                                        @direccion,@tipo_sangre,@uniforme,@representante,@fecha_registro,@estado)";
                 using (NpgsqlConnection con = new NpgsqlConnection(cadena)){
                     using (NpgsqlCommand cmd= new NpgsqlCommand(query, con))
                     {
@@ -148,6 +148,8 @@ namespace ACCESO_DATOS
                         cmd.Parameters.AddWithValue("@tipo_sangre", Ealumno.tipo_sangre);
                         cmd.Parameters.AddWithValue("@uniforme", Ealumno.num_uniforme);
                         cmd.Parameters.AddWithValue("@representante", Ealumno.id_representante);
+                        cmd.Parameters.AddWithValue("@fecha_registro", Ealumno.fecha_registro);
+                        cmd.Parameters.AddWithValue("@estado", Ealumno.estado);
                         cmd.ExecuteNonQuery();
                         con.Close();
                     }
@@ -178,7 +180,8 @@ namespace ACCESO_DATOS
 	                        alumno.direccion_dom,
 	                        alumno.tipo_sangre,
 	                        alumno.num_uniforme,
-	                        representante.nombre
+	                        representante.nombre,
+                            alumno.estado_alumno
                          from representante
                          INNER join alumno on representante.id_representante = alumno.id_representante";
                 using (NpgsqlConnection con = new NpgsqlConnection(cadena))
@@ -198,6 +201,54 @@ namespace ACCESO_DATOS
                 //return datos;
                 
             } catch (Exception er)
+            {
+                Console.WriteLine(er.Message);
+            }
+            return null;
+        }
+        
+        public DataSet GetAlumnosByFields(string cedula, string nombre, string sexo, DateTime fecha, string ciudad, bool estado)
+        {
+            try
+            {
+                query = @"select alumno.id_alumno,
+	                            alumno.nom_alumno,
+	                            alumno.sexo,
+	                            alumno.fecha_nacimiento,
+	                            alumno.edad,
+	                            alumno.ciudad,
+	                            alumno.provincia,
+	                            alumno.nacionalidad,
+	                            alumno.direccion_dom,
+	                            alumno.tipo_sangre,
+	                            alumno.num_uniforme,
+	                            representante.nombre,
+	                            alumno.estado_alumno
+                                from representante
+                                INNER join alumno on representante.id_representante = alumno.id_representante
+                                where 
+                                (alumno.id_alumno = @id_alumno or alumno.nom_alumno = @nombre or
+	                            alumno.sexo = @sexo or alumno.fecha_nacimiento = @fecha_nacimiento or
+	                            alumno.ciudad = @ciudad ) and alumno.estado_alumno = @estado";
+                using (NpgsqlConnection con = new NpgsqlConnection(cadena))
+                {
+                    using (NpgsqlDataAdapter select = new NpgsqlDataAdapter(query, con))
+                    {
+                        con.Open();
+                        datos.Clear();
+                        select.SelectCommand.Parameters.AddWithValue("@id_alumno", cedula);
+                        select.SelectCommand.Parameters.AddWithValue("@nombre", nombre);
+                        select.SelectCommand.Parameters.AddWithValue("@sexo", sexo);
+                        select.SelectCommand.Parameters.AddWithValue("@fecha_nacimiento", fecha);
+                        select.SelectCommand.Parameters.AddWithValue("@ciudad", ciudad);
+                        select.SelectCommand.Parameters.AddWithValue("@estado", estado);
+                        select.Fill(datos);
+                        conexion.Close();
+                        return datos;
+                    }
+                }
+            }
+            catch (Exception er)
             {
                 Console.WriteLine(er.Message);
             }
@@ -282,6 +333,11 @@ namespace ACCESO_DATOS
                     con.Close();
                 }
             }
+        }
+
+        public void UpdateStatusAlumno(EAlumno alumno)
+        {
+            //
         }
     }
 }
