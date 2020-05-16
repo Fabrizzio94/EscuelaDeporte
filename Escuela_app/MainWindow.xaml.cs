@@ -55,7 +55,8 @@ namespace Escuela_app
             {
                 string SexoVal = comboBox1_sexo.SelectedIndex != -1  ? comboBox1_sexo.SelectedValue.ToString() : "";
                 DateTime FechaVal = fecha_nacimiento.SelectedDate != null ? fecha_nacimiento.SelectedDate.Value.Date: DateTime.Today.Date;
-                datagridAlumno.ItemsSource = _MetodosAlumno.GetAllumnosByFields(textBox_cedula.Text, textBox_nombre.Text, SexoVal, FechaVal, textbox_ciudad.Text.ToUpper(), Convert.ToBoolean(checkbox_estado.IsChecked)).Tables[0].DefaultView;
+                string NombreVal = (String.IsNullOrWhiteSpace(textBox_nombre.Text) || String.IsNullOrEmpty(textBox_nombre.Text)) ? "5" : textBox_nombre.Text;
+                datagridAlumno.ItemsSource = _MetodosAlumno.GetAllumnosByFields(textBox_cedula.Text, NombreVal, SexoVal, FechaVal, textbox_ciudad.Text.ToUpper(), Convert.ToBoolean(checkbox_estado.IsChecked)).Tables[0].DefaultView;
             }
             catch (Exception er)
             {
@@ -85,7 +86,31 @@ namespace Escuela_app
             } else { e.Handled = false; }
         }
 
-       
+        private void DatePicker_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            char character = Convert.ToChar(e.Text);
+            if (char.IsNumber(character) || character.Equals('/') || character.Equals('-'))
+            {
+                Console.WriteLine("num");
+                e.Handled = false;
+            }
+            else
+            {
+                e.Handled = true;
+            }
+        }
+        private void TextBox_nombre_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (char.IsLetter((char)e.Key) || e.Key == Key.Back || (e.Key >= Key.D0 && e.Key <= Key.D9))
+            {
+                if (!(e.Key == Key.Z || e.Key == Key.X || e.Key == Key.V || e.Key == Key.Y || e.Key == Key.W))
+                {
+                    e.Handled = true;
+                }
+            }
+            else { e.Handled = false; }
+
+        }
         private void Button_Nuevo_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
@@ -100,7 +125,8 @@ namespace Escuela_app
 
         private void Button_Limpiar_Click(object sender, RoutedEventArgs e)
         {
-            //handler.ClearFields(grilla);
+            handler.ClearFieldsDockPanel(stack_1);
+            handler.ClearFieldsDockPanel(stack_2);
         }
     }
 }

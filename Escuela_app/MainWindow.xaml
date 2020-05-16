@@ -18,14 +18,14 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
         </Style>
     </Controls:MetroWindow.Resources>
-    <DockPanel LastChildFill="True" Margin="28 15 28 10">
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Margin="5 7 5 10">
+    <DockPanel x:Name="MainDockPanel" LastChildFill="True" Margin="28 15 28 10">
+        <StackPanel x:Name="stack_1" Orientation="Horizontal" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Margin="5 7 5 10">
             <Label x:Name="label_1" Content="Cedula: " RenderTransformOrigin="-0.234,-0.001"/>
             <TextBox x:Name="textBox_cedula" Height="23" TextWrapping="Wrap" Text="" Margin="0 2 0 2"  Width="120" KeyDown="TextBox1_inicio_KeyDown" PreviewKeyDown="TextBox1_inicio_PreviewKeyDown" 
                      Controls:TextBoxHelper.Watermark="Ingrese cedula"  TextChanged="TextBoxes_Changes" />
             <Label x:Name="label_2" Content="Nombre: " Margin="10 0 0 0"/>
             <TextBox x:Name="textBox_nombre"  Height="23"  TextWrapping="Wrap" Text=""  Width="300" 
-                     Controls:TextBoxHelper.Watermark="Ingrese Nombre de alumno a buscar" Margin="0 2 0 2" TextChanged="TextBoxes_Changes"/>
+                     Controls:TextBoxHelper.Watermark="Ingrese Nombre de alumno a buscar" Margin="0 2 0 2" TextChanged="TextBoxes_Changes" KeyDown="TextBox_nombre_KeyDown"/>
 
             <Label x:Name="label_3" Content="Sexo: " Margin="10 0 0 0"/>
             <ComboBox x:Name="comboBox1_sexo" IsReadOnly="True" Margin="0 2 0 2" MinWidth="115" IsEditable="False" Controls:TextBoxHelper.Watermark="--Seleccione--" SelectionChanged="TextBoxes_Changes" SelectedValuePath="Content">
@@ -33,12 +33,12 @@
                 <ComboBoxItem>Femenino</ComboBoxItem>
             </ComboBox>
             <Label x:Name="label_4" Content="Fecha Nacimiento: " Margin="10 0 0 0"/>
-            <DatePicker x:Name="fecha_nacimiento" Margin="0 2 0 2" SelectedDateChanged="TextBoxes_Changes"/>
+            <DatePicker x:Name="fecha_nacimiento" Margin="0 2 0 2" SelectedDateChanged="TextBoxes_Changes" PreviewTextInput="DatePicker_PreviewTextInput"/>
 
         </StackPanel>
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="5 3 5 14">
+        <StackPanel x:Name="stack_2" DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="5 3 5 14">
             <Label x:Name="label_5" Content="Ciudad: " Height="23" Width="auto" Padding="3 3 0 0"/>
-            <TextBox x:Name="textbox_ciudad" MinWidth="120"  Margin="5 2 0 2" Controls:TextBoxHelper.Watermark="Ingrese ciudad" TextChanged="TextBoxes_Changes"/>
+            <TextBox x:Name="textbox_ciudad" MinWidth="120"  Margin="5 2 0 2" Controls:TextBoxHelper.Watermark="Ingrese ciudad" TextChanged="TextBoxes_Changes" KeyDown="TextBox_nombre_KeyDown"/>
             <Label x:Name="label_6" Content="Estado: " Height="23" Width="auto" Padding="15 3 0 0"/>
             <CheckBox x:Name="checkbox_estado" Content="Activo" IsChecked="True" Margin="10 0 0 0" Click="TextBoxes_Changes"/>
         </StackPanel>

@@ -93,6 +93,21 @@ namespace LogicaNegocio
                     ((DatePicker)ctrl).ClearValue(DatePicker.SelectedDateProperty);
             }
         }
+        public void ClearFieldsDockPanel(StackPanel panel)
+        {
+            UIElementCollection element = panel.Children;
+            List<FrameworkElement> lstElement = element.Cast<FrameworkElement>().ToList();
+            var lstControl = lstElement.OfType<Control>();
+            foreach(Control ctrl in lstControl)
+            {
+                if(ctrl is TextBox)
+                    ((TextBox)ctrl).Text = string.Empty;
+                if(ctrl is ComboBox)
+                    ((ComboBox)ctrl).SelectedIndex = -1;
+                if (ctrl is DatePicker)
+                    ((DatePicker)ctrl).ClearValue(DatePicker.SelectedDateProperty);
+            }
+        }
         public int CalcularEdad(DatePicker fecha)
         {
             DateTime fechaActual = DateTime.Today;

@@ -194,11 +194,6 @@ namespace ACCESO_DATOS
                         return datos;
                     }
                 }
-                   
-                        //NpgsqlDataAdapter select = new NpgsqlDataAdapter(query, conexion);
-                //select.Fill(datos);
-                //conexion.Close();
-                //return datos;
                 
             } catch (Exception er)
             {
@@ -227,7 +222,7 @@ namespace ACCESO_DATOS
                                 from representante
                                 INNER join alumno on representante.id_representante = alumno.id_representante
                                 where 
-                                (alumno.id_alumno = @id_alumno or alumno.nom_alumno = @nombre or
+                                (alumno.id_alumno = @id_alumno or alumno.nom_alumno like @nombre or
 	                            alumno.sexo = @sexo or alumno.fecha_nacimiento = @fecha_nacimiento or
 	                            alumno.ciudad = @ciudad ) and alumno.estado_alumno = @estado";
                 using (NpgsqlConnection con = new NpgsqlConnection(cadena))
@@ -237,7 +232,7 @@ namespace ACCESO_DATOS
                         con.Open();
                         datos.Clear();
                         select.SelectCommand.Parameters.AddWithValue("@id_alumno", cedula);
-                        select.SelectCommand.Parameters.AddWithValue("@nombre", nombre);
+                        select.SelectCommand.Parameters.AddWithValue("@nombre", "%"+ nombre + "%");
                         select.SelectCommand.Parameters.AddWithValue("@sexo", sexo);
                         select.SelectCommand.Parameters.AddWithValue("@fecha_nacimiento", fecha);
                         select.SelectCommand.Parameters.AddWithValue("@ciudad", ciudad);
