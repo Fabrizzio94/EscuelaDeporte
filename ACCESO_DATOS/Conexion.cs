@@ -280,7 +280,10 @@ namespace ACCESO_DATOS
                                 direccion_dom = Convert.ToString(dataReader["direccion_dom"]),
                                 tipo_sangre = Convert.ToString(dataReader["tipo_sangre"]),
                                 num_uniforme = Convert.ToInt32(dataReader["num_uniforme"]),
-                                id_representante = Convert.ToString(dataReader["id_representante"])
+                                id_representante = Convert.ToString(dataReader["id_representante"]),
+                                fecha_registro = Convert.ToDateTime(dataReader["fecha_registro"]),
+                                estado = Convert.ToBoolean(dataReader["estado_alumno"]),
+                                observacion = Convert.ToString(dataReader["observaciones"])
                             };
                             con.Close();
                             return Ealumno;
@@ -329,10 +332,27 @@ namespace ACCESO_DATOS
                 }
             }
         }
-
+        /// <summary>
+        /// Update status of Alumno through WinForm of ManageAlumno
+        /// </summary>
+        /// <param name="alumno"></param>
         public void UpdateStatusAlumno(EAlumno alumno)
         {
             //
+            using(NpgsqlConnection con = new NpgsqlConnection(cadena))
+            {
+                query = @"UPDATE alumno SET estado_alumno = @estado, observaciones = @observacion WHERE id_alumno = @id";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
+                {
+                    con.Open();
+                    cmd.Parameters.AddWithValue("@estado", alumno.estado);
+                    cmd.Parameters.AddWithValue("@observacion", alumno.observacion);
+                    cmd.Parameters.AddWithValue("@id", alumno.Id_alumno);
+
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
         }
     }
 }

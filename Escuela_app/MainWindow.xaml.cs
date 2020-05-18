@@ -49,6 +49,7 @@ namespace Escuela_app
             //datagridAlumno.DataContext = _MetodosAlumno.getAll().Tables[0].DefaultView; // <-- error
             
         }
+
         private void TextBoxes_Changes(object sender, EventArgs e)
         {
             try
@@ -67,6 +68,16 @@ namespace Escuela_app
 
 
         /* functions */
+        List<string> RowToList(DataRowView rowView)
+        {
+            List<string> items = new List<string>();
+            for (int i = 0; i < 13; i++)
+            {
+                items.Add(rowView.Row[i].ToString());
+
+            }
+            return items;
+        }
         /* TextBox events - Windows1*/
         private void TextBox1_inicio_KeyDown(object sender, KeyEventArgs e)
         {
@@ -128,5 +139,40 @@ namespace Escuela_app
             handler.ClearFieldsDockPanel(stack_1);
             handler.ClearFieldsDockPanel(stack_2);
         }
+        
+        private void DatagridAlumno_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+            TextBlock x = datagridAlumno.Columns[0].GetCellContent(datagridAlumno.Items[datagridAlumno.SelectedIndex]) as TextBlock;
+            if (x != null)
+                MessageBox.Show(x.Text);
+
+
+        }
+
+        private void DatagridAlumno_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            object item = datagridAlumno.SelectedItem;
+            string ID = (datagridAlumno.SelectedCells[0].Column.GetCellContent(item)).ToString();
+            //MessageBox.Show(datagridAlumno.CurrentCell.ToString());
+            MessageBox.Show(ID);
+        }
+
+        public void OnChecked(object sender, RoutedEventArgs e)
+        {
+            if (datagridAlumno.SelectedIndex != -1)
+            {
+                //List<string> campos = datagridAlumno.Columns.GetCellContent(datagridAlumno.Items[datagridAlumno.SelectedIndex]);
+                List<string> list = new List<string>();
+                DataRowView dataRowView = (DataRowView)datagridAlumno.SelectedItem;
+                list = RowToList(dataRowView);
+
+                // call edit state window
+                ManageAlumno state = new ManageAlumno(RowToList(dataRowView));
+                state.ShowDialog();
+                TextBoxes_Changes(sender, e);
+            }
+        }
+        
     }
 }

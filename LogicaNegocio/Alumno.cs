@@ -194,6 +194,10 @@ namespace LogicaNegocio
         {
             return _conexion.getAllAlumno();
         }
+        public EAlumno GetAlumnoById(string cedula)
+        {
+            return _conexion.GetAlumnoById(cedula);
+        }
         public DataSet GetAllumnosByFields(string cedula, string nombre, string sexo, DateTime fecha, string ciudad, bool estado)
         {
             return _conexion.GetAlumnosByFields(cedula, nombre, sexo, fecha, ciudad, estado);
@@ -215,6 +219,10 @@ namespace LogicaNegocio
                     _conexion.UpdateAlumno(alumno);
                 }
             }
+        }
+        public void UpdateStatusAlumno(EAlumno alumno)
+        {
+            _conexion.UpdateStatusAlumno(alumno);
         }
         private bool ValidarRepresentante(EAlumno alumno)
         {
