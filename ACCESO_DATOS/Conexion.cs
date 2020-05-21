@@ -201,8 +201,14 @@ namespace ACCESO_DATOS
             }
             return null;
         }
-        
-        public DataSet GetAlumnosByFields(string cedula, string nombre, string sexo, DateTime fecha, string ciudad, bool estado)
+        /// <summary>
+        /// Get cedula, name and state of Alumno from MainWindow
+        /// </summary>
+        /// <param name="cedula"></param>
+        /// <param name="nombre"></param>
+        /// <param name="estado"></param>
+        /// <returns></returns>
+        public DataSet GetAlumnosById_Nombre(string cedula, string nombre, bool estado)
         {
             try
             {
@@ -222,9 +228,7 @@ namespace ACCESO_DATOS
                                 from representante
                                 INNER join alumno on representante.id_representante = alumno.id_representante
                                 where 
-                                (alumno.id_alumno = @id_alumno or alumno.nom_alumno like @nombre or
-	                            alumno.sexo = @sexo or alumno.fecha_nacimiento = @fecha_nacimiento or
-	                            alumno.ciudad = @ciudad ) and alumno.estado_alumno = @estado";
+                                (alumno.id_alumno = @id_alumno or alumno.nom_alumno like @nombre) and alumno.estado_alumno = @estado";
                 using (NpgsqlConnection con = new NpgsqlConnection(cadena))
                 {
                     using (NpgsqlDataAdapter select = new NpgsqlDataAdapter(query, con))
@@ -233,6 +237,246 @@ namespace ACCESO_DATOS
                         datos.Clear();
                         select.SelectCommand.Parameters.AddWithValue("@id_alumno", cedula);
                         select.SelectCommand.Parameters.AddWithValue("@nombre", "%"+ nombre + "%");
+                        select.SelectCommand.Parameters.AddWithValue("@estado", estado);
+                        select.Fill(datos);
+                        conexion.Close();
+                        return datos;
+                    }
+                }
+            }
+            catch (Exception er)
+            {
+                Console.WriteLine(er.Message);
+            }
+            return null;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sexo"></param>
+        /// <param name="estado"></param>
+        /// <returns></returns>
+        public DataSet GetAlumnosBySexo(string sexo, bool estado)
+        {
+            try
+            {
+                query = @"select alumno.id_alumno,
+	                            alumno.nom_alumno,
+	                            alumno.sexo,
+	                            alumno.fecha_nacimiento,
+	                            alumno.edad,
+	                            alumno.ciudad,
+	                            alumno.provincia,
+	                            alumno.nacionalidad,
+	                            alumno.direccion_dom,
+	                            alumno.tipo_sangre,
+	                            alumno.num_uniforme,
+	                            representante.nombre,
+	                            alumno.estado_alumno
+                                from representante
+                                INNER join alumno on representante.id_representante = alumno.id_representante
+                                where 
+                                alumno.sexo = @sexo  and alumno.estado_alumno = @estado";
+                using (NpgsqlConnection con = new NpgsqlConnection(cadena))
+                {
+                    using (NpgsqlDataAdapter select = new NpgsqlDataAdapter(query, con))
+                    {
+                        con.Open();
+                        datos.Clear();
+                        select.SelectCommand.Parameters.AddWithValue("@sexo", sexo);
+                        select.SelectCommand.Parameters.AddWithValue("@estado", estado);
+                        select.Fill(datos);
+                        conexion.Close();
+                        return datos;
+                    }
+                }
+            }
+            catch (Exception er)
+            {
+                Console.WriteLine(er.Message);
+            }
+            return null;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sexo"></param>
+        /// <param name="fecha"></param>
+        /// <param name="estado"></param>
+        /// <returns></returns>
+        public DataSet GetAlumnosBySexo_FechaNacimiento(string sexo, DateTime fecha, bool estado)
+        {
+            try
+            {
+                query = @"select alumno.id_alumno,
+	                            alumno.nom_alumno,
+	                            alumno.sexo,
+	                            alumno.fecha_nacimiento,
+	                            alumno.edad,
+	                            alumno.ciudad,
+	                            alumno.provincia,
+	                            alumno.nacionalidad,
+	                            alumno.direccion_dom,
+	                            alumno.tipo_sangre,
+	                            alumno.num_uniforme,
+	                            representante.nombre,
+	                            alumno.estado_alumno
+                                from representante
+                                INNER join alumno on representante.id_representante = alumno.id_representante
+                                where 
+                                (alumno.sexo = @sexo and alumno.fecha_nacimiento = @fecha_nacimiento)  and alumno.estado_alumno = @estado";
+                using (NpgsqlConnection con = new NpgsqlConnection(cadena))
+                {
+                    using (NpgsqlDataAdapter select = new NpgsqlDataAdapter(query, con))
+                    {
+                        con.Open();
+                        datos.Clear();
+                        select.SelectCommand.Parameters.AddWithValue("@sexo", sexo);
+                        select.SelectCommand.Parameters.AddWithValue("@fecha_nacimiento", fecha);
+                        select.SelectCommand.Parameters.AddWithValue("@estado", estado);
+                        select.Fill(datos);
+                        conexion.Close();
+                        return datos;
+                    }
+                }
+            }
+            catch (Exception er)
+            {
+                Console.WriteLine(er.Message);
+            }
+            return null;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ciudad"></param>
+        /// <param name="estado"></param>
+        /// <returns></returns>
+        public DataSet GetAlumnosByCiudad(string ciudad, bool estado)
+        {
+            try
+            {
+                query = @"select alumno.id_alumno,
+	                            alumno.nom_alumno,
+	                            alumno.sexo,
+	                            alumno.fecha_nacimiento,
+	                            alumno.edad,
+	                            alumno.ciudad,
+	                            alumno.provincia,
+	                            alumno.nacionalidad,
+	                            alumno.direccion_dom,
+	                            alumno.tipo_sangre,
+	                            alumno.num_uniforme,
+	                            representante.nombre,
+	                            alumno.estado_alumno
+                                from representante
+                                INNER join alumno on representante.id_representante = alumno.id_representante
+                                where 
+                                (alumno.ciudad = @ciudad)  and alumno.estado_alumno = @estado";
+                using (NpgsqlConnection con = new NpgsqlConnection(cadena))
+                {
+                    using (NpgsqlDataAdapter select = new NpgsqlDataAdapter(query, con))
+                    {
+                        con.Open();
+                        datos.Clear();
+                        select.SelectCommand.Parameters.AddWithValue("@ciudad", ciudad);
+                        select.SelectCommand.Parameters.AddWithValue("@estado", estado);
+                        select.Fill(datos);
+                        conexion.Close();
+                        return datos;
+                    }
+                }
+            }
+            catch (Exception er)
+            {
+                Console.WriteLine(er.Message);
+            }
+            return null;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ciudad"></param>
+        /// <param name="fecha"></param>
+        /// <param name="estado"></param>
+        /// <returns></returns>
+        public DataSet GetAlumnosByCiudad_FechaNacimiento(string ciudad, DateTime fecha, bool estado)
+        {
+            try
+            {
+                query = @"select alumno.id_alumno,
+	                            alumno.nom_alumno,
+	                            alumno.sexo,
+	                            alumno.fecha_nacimiento,
+	                            alumno.edad,
+	                            alumno.ciudad,
+	                            alumno.provincia,
+	                            alumno.nacionalidad,
+	                            alumno.direccion_dom,
+	                            alumno.tipo_sangre,
+	                            alumno.num_uniforme,
+	                            representante.nombre,
+	                            alumno.estado_alumno
+                                from representante
+                                INNER join alumno on representante.id_representante = alumno.id_representante
+                                where 
+                                (alumno.fecha_nacimiento = @fecha_nacimiento and alumno.ciudad = @ciudad)  and alumno.estado_alumno = @estado";
+                using (NpgsqlConnection con = new NpgsqlConnection(cadena))
+                {
+                    using (NpgsqlDataAdapter select = new NpgsqlDataAdapter(query, con))
+                    {
+                        con.Open();
+                        datos.Clear();
+                        select.SelectCommand.Parameters.AddWithValue("@fecha_nacimiento", fecha);
+                        select.SelectCommand.Parameters.AddWithValue("@ciudad", ciudad);
+                        select.SelectCommand.Parameters.AddWithValue("@estado", estado);
+                        select.Fill(datos);
+                        conexion.Close();
+                        return datos;
+                    }
+                }
+            }
+            catch (Exception er)
+            {
+                Console.WriteLine(er.Message);
+            }
+            return null;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sexo"></param>
+        /// <param name="fecha"></param>
+        /// <param name="ciudad"></param>
+        /// <param name="estado"></param>
+        /// <returns></returns>
+        public DataSet GetAlumnosBySexo_FechaNacimiento_Ciudad(string sexo, DateTime fecha, string ciudad, bool estado)
+        {
+            try
+            {
+                query = @"select alumno.id_alumno,
+	                            alumno.nom_alumno,
+	                            alumno.sexo,
+	                            alumno.fecha_nacimiento,
+	                            alumno.edad,
+	                            alumno.ciudad,
+	                            alumno.provincia,
+	                            alumno.nacionalidad,
+	                            alumno.direccion_dom,
+	                            alumno.tipo_sangre,
+	                            alumno.num_uniforme,
+	                            representante.nombre,
+	                            alumno.estado_alumno
+                                from representante
+                                INNER join alumno on representante.id_representante = alumno.id_representante
+                                where 
+                                (alumno.sexo = @sexo and alumno.fecha_nacimiento = @fecha_nacimiento and alumno.ciudad = @ciudad)  and alumno.estado_alumno = @estado";
+                using (NpgsqlConnection con = new NpgsqlConnection(cadena))
+                {
+                    using (NpgsqlDataAdapter select = new NpgsqlDataAdapter(query, con))
+                    {
+                        con.Open();
+                        datos.Clear();
                         select.SelectCommand.Parameters.AddWithValue("@sexo", sexo);
                         select.SelectCommand.Parameters.AddWithValue("@fecha_nacimiento", fecha);
                         select.SelectCommand.Parameters.AddWithValue("@ciudad", ciudad);

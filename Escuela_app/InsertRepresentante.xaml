@@ -6,7 +6,7 @@
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:Escuela_app"
         mc:Ignorable="d"
-        Title="InsertRepresentante" Height="450" Width="737.439" WindowStartupLocation="CenterScreen" >
+        Title="InsertRepresentante" Height="450" Width="737.439" WindowStartupLocation="CenterScreen" Background="Gainsboro">
     <Grid>
         <Label x:Name="label" Content="Cedula: " HorizontalAlignment="Left" Margin="44,41,0,0" VerticalAlignment="Top" FontSize="14"/>
         <TextBox x:Name="textBox_cedula" HorizontalAlignment="Left" Height="23" Margin="44,70,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" FontSize="14" TextChanged="TextBox_cedula_TextChanged" Controls:TextBoxHelper.Watermark="Ingrese cedula" />
@@ -18,8 +18,8 @@
         <TextBox x:Name="textBox_celular" HorizontalAlignment="Left" Height="23" Margin="275,125,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="159" FontSize="14" Controls:TextBoxHelper.Watermark="# de celular"/>
         <Label x:Name="label4" Content="Observaciones: " HorizontalAlignment="Left" Margin="33,184,0,0" VerticalAlignment="Top" FontSize="14"/>
         <TextBox x:Name="textBox_observacion" HorizontalAlignment="Left" Height="105" Margin="33,215,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="661" FontSize="14" BorderThickness="3" Controls:TextBoxHelper.Watermark="Ingrese alguna observación respecto al alumno y/o representante."/>
-        <Button x:Name="button_guardar" Content="Guardar" HorizontalAlignment="Left" Margin="140,357,0,0" VerticalAlignment="Top" Width="76" Height="35" Click="Button_guardar_Click"/>
-        <Button x:Name="button_cancelar" Content="Cancelar" HorizontalAlignment="Left" Margin="392,357,0,0" VerticalAlignment="Top" Width="74" Height="35" Click="Button_cancelar_Click"/>
+        <Button x:Name="button_guardar" Content="Guardar" HorizontalAlignment="Left" Margin="216,354,0,30" VerticalAlignment="Center" Width="76" Height="35" Click="Button_guardar_Click"/>
+        <Button x:Name="button_cancelar" Content="Cancelar" HorizontalAlignment="Stretch" Margin="418,354,237,29" VerticalAlignment="Center" Width="74" Height="36" Click="Button_cancelar_Click"/>
 
     </Grid>
 </Controls:MetroWindow>

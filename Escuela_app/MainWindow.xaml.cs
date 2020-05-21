@@ -42,22 +42,59 @@ namespace Escuela_app
         /* methods */
         public  void AsignacionComboBox ()
         {
+            //comboBox1_sexo.IsEnabled = String.IsNullOrEmpty(textBox_nombre.Text) ? false : true;
             /*comboBox1_inicio.Items.Clear();
             comboBox1_inicio.SelectedIndex = 0;
             comboBox1_inicio.ItemsSource = _MetodosAlumno.GetListProvincias();*/
             // datagridAlumno.ItemsSource = _MetodosAlumno.getAll().Tables[0].DefaultView;
             //datagridAlumno.DataContext = _MetodosAlumno.getAll().Tables[0].DefaultView; // <-- error
-            
-        }
 
+        }
+        void LimpiarVentana()
+        {
+            handler.ClearFieldsDockPanel(stack_1);
+            handler.ClearFieldsDockPanel(stack_2);
+        }
         private void TextBoxes_Changes(object sender, EventArgs e)
         {
             try
             {
                 string SexoVal = comboBox1_sexo.SelectedIndex != -1  ? comboBox1_sexo.SelectedValue.ToString() : "";
                 DateTime FechaVal = fecha_nacimiento.SelectedDate != null ? fecha_nacimiento.SelectedDate.Value.Date: DateTime.Today.Date;
-                string NombreVal = (String.IsNullOrWhiteSpace(textBox_nombre.Text) || String.IsNullOrEmpty(textBox_nombre.Text)) ? "5" : textBox_nombre.Text;
-                datagridAlumno.ItemsSource = _MetodosAlumno.GetAllumnosByFields(textBox_cedula.Text, NombreVal, SexoVal, FechaVal, textbox_ciudad.Text.ToUpper(), Convert.ToBoolean(checkbox_estado.IsChecked)).Tables[0].DefaultView;
+                string NombreVal = (String.IsNullOrWhiteSpace(textBox_nombre.Text) || String.IsNullOrEmpty(textBox_nombre.Text)) ? "5" : textBox_nombre.Text.ToUpper();
+                string CiudadVal = textbox_ciudad.Text.ToUpper();
+                bool EstadoVal = Convert.ToBoolean(checkbox_estado.IsChecked);
+                datagridAlumno.ItemsSource = _MetodosAlumno.GetAlumnosById_Nombre(textBox_cedula.Text, NombreVal, EstadoVal).Tables[0].DefaultView;
+                if (comboBox1_sexo.SelectedIndex != -1 && fecha_nacimiento.SelectedDate == null)
+                {
+                    // lista por sexo
+                    // alumno.sexo = 'Masculino' and alumno.estado_alumno = 't'
+                    datagridAlumno.ItemsSource = _MetodosAlumno.GetAlumnosBySex(SexoVal, EstadoVal).Tables[0].DefaultView;
+                }
+                if (comboBox1_sexo.SelectedIndex != -1 && fecha_nacimiento.SelectedDate != null)
+                {
+                    // lista por sexo y fecha de nacimiento 
+                    // (alumno.sexo = 'Masculino' and alumno.fecha_nacimiento = '12-01-2000') and alumno.estado_alumno = 't'
+                    datagridAlumno.ItemsSource = _MetodosAlumno.GetAlumnosBySexo_FechaNacimiento(SexoVal, FechaVal, EstadoVal).Tables[0].DefaultView;
+                }
+                if (!String.IsNullOrEmpty(textbox_ciudad.Text) && comboBox1_sexo.SelectedIndex == -1 && fecha_nacimiento.SelectedDate == null)
+                {
+                    // lista por ciudad
+                    // alumno.ciudad = '' and alumno.estado_alumno = 't'
+                    datagridAlumno.ItemsSource = _MetodosAlumno.GetAlumnosByCiudad(CiudadVal, EstadoVal).Tables[0].DefaultView;
+                }
+                if (!String.IsNullOrEmpty(textbox_ciudad.Text) && fecha_nacimiento.SelectedDate != null && comboBox1_sexo.SelectedIndex == -1)
+                {
+                    // lista por ciudad y fecha de nacimiento
+                    // alumno.ciudad = '' and alumno.fecha_nacimiento = '' ) and alumno.estado_alumno = 't'
+                    datagridAlumno.ItemsSource = _MetodosAlumno.GetAlumnosByCiudad_FechaNacimiento(CiudadVal, FechaVal, EstadoVal).Tables[0].DefaultView;
+                }
+                if(!String.IsNullOrEmpty(textbox_ciudad.Text) && fecha_nacimiento.SelectedDate != null && comboBox1_sexo.SelectedIndex != -1)
+                {
+                    // lista por ciudad, fecha nacimiento y sexo
+                    // alumno.ciudad = '' and alumno.fecha_nacimiento = ''  and alumno.sexo) and alumno.estado_alumno = 't'
+                    datagridAlumno.ItemsSource = _MetodosAlumno.GetAlumnosBySexo_FechaNacimiento_Ciudad(SexoVal, FechaVal, CiudadVal, EstadoVal).Tables[0].DefaultView;
+                }
             }
             catch (Exception er)
             {
@@ -102,7 +139,6 @@ namespace Escuela_app
             char character = Convert.ToChar(e.Text);
             if (char.IsNumber(character) || character.Equals('/') || character.Equals('-'))
             {
-                Console.WriteLine("num");
                 e.Handled = false;
             }
             else
@@ -136,17 +172,16 @@ namespace Escuela_app
 
         private void Button_Limpiar_Click(object sender, RoutedEventArgs e)
         {
-            handler.ClearFieldsDockPanel(stack_1);
-            handler.ClearFieldsDockPanel(stack_2);
+            LimpiarVentana();
         }
         
         private void DatagridAlumno_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
-            TextBlock x = datagridAlumno.Columns[0].GetCellContent(datagridAlumno.Items[datagridAlumno.SelectedIndex]) as TextBlock;
-            if (x != null)
-                MessageBox.Show(x.Text);
-
+            if(datagridAlumno.SelectedIndex != -1) { 
+                /*TextBlock x = datagridAlumno.Columns[0].GetCellContent(datagridAlumno.Items[datagridAlumno.SelectedIndex]) as TextBlock;
+                if (x != null)
+                    MessageBox.Show(x.Text);*/
+            }
 
         }
 
@@ -154,7 +189,6 @@ namespace Escuela_app
         {
             object item = datagridAlumno.SelectedItem;
             string ID = (datagridAlumno.SelectedCells[0].Column.GetCellContent(item)).ToString();
-            //MessageBox.Show(datagridAlumno.CurrentCell.ToString());
             MessageBox.Show(ID);
         }
 
@@ -162,14 +196,13 @@ namespace Escuela_app
         {
             if (datagridAlumno.SelectedIndex != -1)
             {
-                //List<string> campos = datagridAlumno.Columns.GetCellContent(datagridAlumno.Items[datagridAlumno.SelectedIndex]);
                 List<string> list = new List<string>();
                 DataRowView dataRowView = (DataRowView)datagridAlumno.SelectedItem;
-                list = RowToList(dataRowView);
 
                 // call edit state window
                 ManageAlumno state = new ManageAlumno(RowToList(dataRowView));
                 state.ShowDialog();
+                //LimpiarVentana();
                 TextBoxes_Changes(sender, e);
             }
         }

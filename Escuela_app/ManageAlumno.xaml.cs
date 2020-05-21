@@ -42,7 +42,7 @@ namespace Escuela_app
             activo.IsChecked = ListText[12].Equals("True") ? true: false; 
             inactivo.IsChecked = ListText[12].Equals("False") ? true : false;
             observacion.Text = alumno.GetAlumnoById(txt_cedula.Text).observacion;
-
+            observacion.Focus();
         }
         private void UpdateStateAlumno()
         {

@@ -17,15 +17,26 @@
         <Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader" BasedOn="{StaticResource MetroDataGridColumnHeader}">
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
         </Style>
+        <Style x:Key="DataGridContentCellCentering" TargetType="{x:Type DataGridCell}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Grid>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Controls:MetroWindow.Resources>
     <DockPanel x:Name="MainDockPanel" LastChildFill="True" Margin="28 15 28 10">
         <StackPanel x:Name="stack_1" Orientation="Horizontal" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Margin="5 7 5 10">
             <Label x:Name="label_1" Content="Cedula: " RenderTransformOrigin="-0.234,-0.001"/>
             <TextBox x:Name="textBox_cedula" Height="23" TextWrapping="Wrap" Text="" Margin="0 2 0 2"  Width="120" KeyDown="TextBox1_inicio_KeyDown" PreviewKeyDown="TextBox1_inicio_PreviewKeyDown" 
-                     Controls:TextBoxHelper.Watermark="Ingrese cedula"  TextChanged="TextBoxes_Changes" />
+                     Controls:TextBoxHelper.Watermark="Ingrese cedula"  TextChanged="TextBoxes_Changes" Controls:TextBoxHelper.ClearTextButton="True" />
             <Label x:Name="label_2" Content="Nombre: " Margin="10 0 0 0"/>
             <TextBox x:Name="textBox_nombre"  Height="23"  TextWrapping="Wrap" Text=""  Width="300" 
-                     Controls:TextBoxHelper.Watermark="Ingrese Nombre de alumno a buscar" Margin="0 2 0 2" TextChanged="TextBoxes_Changes" KeyDown="TextBox_nombre_KeyDown"/>
+                     Controls:TextBoxHelper.Watermark="Ingrese Nombre de alumno a buscar" Margin="0 2 0 2" TextChanged="TextBoxes_Changes" KeyDown="TextBox_nombre_KeyDown" Controls:TextBoxHelper.ClearTextButton="True"/>
 
             <Label x:Name="label_3" Content="Sexo: " Margin="10 0 0 0"/>
             <ComboBox x:Name="comboBox1_sexo" IsReadOnly="True" Margin="0 2 0 2" MinWidth="115" IsEditable="False" Controls:TextBoxHelper.Watermark="--Seleccione--" SelectionChanged="TextBoxes_Changes" SelectedValuePath="Content">
@@ -38,7 +49,7 @@
         </StackPanel>
         <StackPanel x:Name="stack_2" DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="5 3 5 14">
             <Label x:Name="label_5" Content="Ciudad: " Height="23" Width="auto" Padding="3 3 0 0"/>
-            <TextBox x:Name="textbox_ciudad" MinWidth="120"  Margin="5 2 0 2" Controls:TextBoxHelper.Watermark="Ingrese ciudad" TextChanged="TextBoxes_Changes" KeyDown="TextBox_nombre_KeyDown"/>
+            <TextBox x:Name="textbox_ciudad" MinWidth="120"  Margin="5 2 0 2" Controls:TextBoxHelper.Watermark="Ingrese ciudad" TextChanged="TextBoxes_Changes" KeyDown="TextBox_nombre_KeyDown" Controls:TextBoxHelper.ClearTextButton="True"/>
             <Label x:Name="label_6" Content="Estado: " Height="23" Width="auto" Padding="15 3 0 0"/>
             <CheckBox x:Name="checkbox_estado" Content="Activo" IsChecked="True" Margin="10 0 0 0" Click="TextBoxes_Changes"/>
         </StackPanel>
@@ -57,28 +68,21 @@
 
                     <DataGridTextColumn Binding="{Binding Path=id_alumno}" Header="Cédula" Width="auto" HeaderStyle="{StaticResource CenterGridHeaderStyle}" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding Path=nom_alumno}" Header="Nombre" HeaderStyle="{StaticResource CenterGridHeaderStyle}" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding Path=sexo}" Header="Sexo" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding Path=fecha_nacimiento, StringFormat=\{0:dd-MM-yyyy \}}" Header="Fecha Nacimiento" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding Path=edad}" Header="Edad" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding Path=ciudad}" Header="Ciudad" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding Path=provincia}" Header="Provincia" HeaderStyle="{StaticResource CenterGridHeaderStyle}" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding Path=nacionalidad}" Header="Nacionalidad" HeaderStyle="{StaticResource CenterGridHeaderStyle}" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Path=sexo}" Header="Sexo" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  IsReadOnly="True" CellStyle="{StaticResource DataGridContentCellCentering}"/>
+                    <DataGridTextColumn Binding="{Binding Path=fecha_nacimiento, StringFormat=\{0:dd-MM-yyyy \}}" Header="Fecha Nacimiento" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  IsReadOnly="True" CellStyle="{StaticResource DataGridContentCellCentering}"/>
+                    <DataGridTextColumn Binding="{Binding Path=edad}" Header="Edad" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  IsReadOnly="True" CellStyle="{StaticResource DataGridContentCellCentering}"/>
+                    <DataGridTextColumn Binding="{Binding Path=ciudad}" Header="Ciudad" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  IsReadOnly="True" CellStyle="{StaticResource DataGridContentCellCentering}"/>
+                    <DataGridTextColumn Binding="{Binding Path=provincia}" Header="Provincia" HeaderStyle="{StaticResource CenterGridHeaderStyle}" IsReadOnly="True" CellStyle="{StaticResource DataGridContentCellCentering}"/>
+                    <DataGridTextColumn Binding="{Binding Path=nacionalidad}" Header="Nacionalidad" HeaderStyle="{StaticResource CenterGridHeaderStyle}" IsReadOnly="True" CellStyle="{StaticResource DataGridContentCellCentering}"/>
                     <DataGridTextColumn Binding="{Binding Path=direccion_dom}" Header="Dirección" HeaderStyle="{StaticResource CenterGridHeaderStyle}" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding Path=tipo_sangre}" Header="Tipo Sangre" HeaderStyle="{StaticResource CenterGridHeaderStyle}" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding Path=num_uniforme}" Header="Uniforme" HeaderStyle="{StaticResource CenterGridHeaderStyle}" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding Path=nombre}" Header="Represetante" HeaderStyle="{StaticResource CenterGridHeaderStyle}" IsReadOnly="True"/>
-                    <!--<DataGridCheckBoxColumn x:Name="chK" Binding="{Binding Path=estado_alumno}" Header="Activo" HeaderStyle="{StaticResource CenterGridHeaderStyle}" IsReadOnly="False">
-                        <DataGridCheckBoxColumn.CellStyle>
-                            <Style>
-                                <EventSetter Event="CheckBox.Checked" Handler="OnChecked"/>
-                            </Style>
-                        </DataGridCheckBoxColumn.CellStyle>
-                    </DataGridCheckBoxColumn>-->
-
-                    <DataGridTemplateColumn Header="Activo">
+                    <DataGridTextColumn Binding="{Binding Path=tipo_sangre}" Header="Tipo Sangre" HeaderStyle="{StaticResource CenterGridHeaderStyle}" IsReadOnly="True" CellStyle="{StaticResource DataGridContentCellCentering}"/>
+                    <DataGridTextColumn Binding="{Binding Path=num_uniforme}" Header="Uniforme" HeaderStyle="{StaticResource CenterGridHeaderStyle}" IsReadOnly="True" CellStyle="{StaticResource DataGridContentCellCentering}"/>
+                    <DataGridTextColumn Binding="{Binding Path=nombre}" Header="Represetante" HeaderStyle="{StaticResource CenterGridHeaderStyle}" IsReadOnly="True" CellStyle="{StaticResource DataGridContentCellCentering}"/>
+                    
+                    <DataGridTemplateColumn Header="Activo" HeaderStyle="{StaticResource CenterGridHeaderStyle}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox x:Name="check" IsChecked="{Binding Path=estado_alumno, Mode=TwoWay}" Click="OnChecked" />
+                                <CheckBox x:Name="check" IsChecked="{Binding Path=estado_alumno, Mode=TwoWay}" Click="OnChecked" HorizontalAlignment="Center"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

@@ -50,7 +50,7 @@ namespace Escuela_app
             {
                 if (EAlumno == null) EAlumno = new EAlumno();
                 EAlumno.Id_alumno = textBox_cedula.Text;
-                EAlumno.nomb_alumno = textBox_nombre.Text;
+                EAlumno.nomb_alumno = textBox_nombre.Text.ToUpper();
                 EAlumno.fecha_nacimiento = fecha_nacimiento.SelectedDate.Value;
                 EAlumno.edad = Convert.ToInt32(textBox_edad.Text);
                 EAlumno.ciudad = comboBox_ciudad.SelectedItem.ToString().ToUpper();

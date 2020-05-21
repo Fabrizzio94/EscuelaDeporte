@@ -198,9 +198,29 @@ namespace LogicaNegocio
         {
             return _conexion.GetAlumnoById(cedula);
         }
-        public DataSet GetAllumnosByFields(string cedula, string nombre, string sexo, DateTime fecha, string ciudad, bool estado)
+        public DataSet GetAlumnosById_Nombre(string cedula, string nombre, bool estado)
         {
-            return _conexion.GetAlumnosByFields(cedula, nombre, sexo, fecha, ciudad, estado);
+            return _conexion.GetAlumnosById_Nombre(cedula, nombre, estado);
+        }
+        public DataSet GetAlumnosBySex(string sexo, bool estado)
+        {
+            return _conexion.GetAlumnosBySexo(sexo, estado);
+        }
+        public DataSet GetAlumnosBySexo_FechaNacimiento(string sexo, DateTime fecha, bool estado)
+        {
+            return _conexion.GetAlumnosBySexo_FechaNacimiento(sexo, fecha, estado);
+        }
+        public DataSet GetAlumnosByCiudad(string ciudad, bool estado)
+        {
+            return _conexion.GetAlumnosByCiudad(ciudad, estado);
+        }
+        public DataSet GetAlumnosByCiudad_FechaNacimiento(string ciudad, DateTime fecha, bool estado)
+        {
+            return _conexion.GetAlumnosByCiudad_FechaNacimiento(ciudad, fecha, estado);
+        }
+        public DataSet GetAlumnosBySexo_FechaNacimiento_Ciudad(string sexo, DateTime fecha, string ciudad, bool estado)
+        {
+            return _conexion.GetAlumnosBySexo_FechaNacimiento_Ciudad(sexo, fecha, ciudad, estado);
         }
         public void SaveAlumno(EAlumno alumno)
         {
