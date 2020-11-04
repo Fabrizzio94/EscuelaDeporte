@@ -16,7 +16,7 @@ FushionEscuela
 *.userosscache
 *.sln.docstates
 # Local folders
-Escuela_app/Resources/
+Escuela_app/Resources/Escuela
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
