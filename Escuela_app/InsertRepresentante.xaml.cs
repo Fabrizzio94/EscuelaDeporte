@@ -11,7 +11,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+// metro desing
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.Behaviours;
 using LogicaNegocio;
 using Entidades;
 namespace Escuela_app
@@ -19,15 +22,16 @@ namespace Escuela_app
     /// <summary>
     /// Lógica de interacción para InsertRepresentante.xaml
     /// </summary>
-    public partial class InsertRepresentante : Window, IDisposable
+    public partial class InsertRepresentante : MetroWindow, IDisposable
     {
         public InsertRepresentante()
         {
             InitializeComponent();
+            textBox_cedula.Focus();
         }
         // instancias //
         private Representante representante = new Representante();
-        private metodos_eventos methods_event = new metodos_eventos();
+        private handler_events handler = new handler_events();
         /* local variables */
         public ERepresentante ERepresentante { get; set; }
         MessageBoxResult result1;
@@ -120,14 +124,14 @@ namespace Escuela_app
             // GetRepresentanteById(textBox_cedula.Text);
             if(textBox_cedula.Text.Length >= 10 )
             {
-                if (methods_event.VerificaIdentificacion(textBox_cedula.Text))
+                if (handler.VerificaIdentificacion(textBox_cedula.Text))
                 {
-                    Console.WriteLine("cedula valida");
+                    textBox_cedula.Foreground = Brushes.Green;
                     GetRepresentanteById(textBox_cedula.Text);
                 }
                 else
                 {
-                    Console.WriteLine("cedula invalida");
+                    textBox_cedula.Foreground = Brushes.Black;
                 }
             }
             

@@ -12,7 +12,10 @@ namespace LogicaNegocio
 {
     public class Alumno
     {
+        // Instances
         private Conexion _conexion = new Conexion();
+        //El uso de la clase StringBuilder nos ayudara a devolver los mensajes de las validaciones
+        public readonly StringBuilder stringBuilder = new StringBuilder();
         /* variables locales */
         /* Listas */
         // provincias
@@ -191,8 +194,68 @@ namespace LogicaNegocio
         {
             return _conexion.getAllAlumno();
         }
-        
-        
-        
+        public EAlumno GetAlumnoById(string cedula)
+        {
+            return _conexion.GetAlumnoById(cedula);
+        }
+        public DataSet GetAlumnosById_Nombre(string cedula, string nombre, bool estado)
+        {
+            return _conexion.GetAlumnosById_Nombre(cedula, nombre, estado);
+        }
+        public DataSet GetAlumnosBySex(string sexo, bool estado)
+        {
+            return _conexion.GetAlumnosBySexo(sexo, estado);
+        }
+        public DataSet GetAlumnosBySexo_FechaNacimiento(string sexo, DateTime fecha, bool estado)
+        {
+            return _conexion.GetAlumnosBySexo_FechaNacimiento(sexo, fecha, estado);
+        }
+        public DataSet GetAlumnosByCiudad(string ciudad, bool estado)
+        {
+            return _conexion.GetAlumnosByCiudad(ciudad, estado);
+        }
+        public DataSet GetAlumnosByCiudad_FechaNacimiento(string ciudad, DateTime fecha, bool estado)
+        {
+            return _conexion.GetAlumnosByCiudad_FechaNacimiento(ciudad, fecha, estado);
+        }
+        public DataSet GetAlumnosBySexo_FechaNacimiento_Ciudad(string sexo, DateTime fecha, string ciudad, bool estado)
+        {
+            return _conexion.GetAlumnosBySexo_FechaNacimiento_Ciudad(sexo, fecha, ciudad, estado);
+        }
+        public void SaveAlumno(EAlumno alumno)
+        {
+            //_conexion.InsertAlumno(alumno);
+            if (ValidarRepresentante(alumno))
+            {
+                //_conexion.GetRepresentanteById(alumno.Id_alumno) == null
+                if (_conexion.GetAlumnoById(alumno.Id_alumno) == null)
+                {
+                    // insert
+                    _conexion.InsertAlumno(alumno);
+                }
+                else
+                {
+                    // update method from Logic layer
+                    _conexion.UpdateAlumno(alumno);
+                }
+            }
+        }
+        public void UpdateStatusAlumno(EAlumno alumno)
+        {
+            _conexion.UpdateStatusAlumno(alumno);
+        }
+        private bool ValidarRepresentante(EAlumno alumno)
+        {
+            stringBuilder.Clear();
+
+            /*if (string.IsNullOrEmpty(alumno.Id_representante)) stringBuilder.Append("El campo Cedula es obligatorio");
+            if (string.IsNullOrEmpty(alumno.nomb_representante)) stringBuilder.Append(Environment.NewLine + "El nombre es obligatorio");
+            // if (producto.Precio <= 0) stringBuilder.Append(Environment.NewLine + "El campo Precio es obligatorio");
+            if (string.IsNullOrEmpty(representante.parentesco)) stringBuilder.Append(Environment.NewLine + "El parentesco es obligatorio");
+            if (string.IsNullOrEmpty(representante.celular)) stringBuilder.Append(Environment.NewLine + "El numero celular es obligatorio");
+            */
+            return stringBuilder.Length == 0;
+        }
+
     }
 }
