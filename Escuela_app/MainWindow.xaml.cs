@@ -163,6 +163,7 @@ namespace Escuela_app
             this.Hide();
             alumno = new InsertAlumno();
             alumno.ShowDialog();
+            this.Show();
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -177,10 +178,14 @@ namespace Escuela_app
         
         private void DatagridAlumno_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if(datagridAlumno.SelectedIndex != -1) { 
-                /*TextBlock x = datagridAlumno.Columns[0].GetCellContent(datagridAlumno.Items[datagridAlumno.SelectedIndex]) as TextBlock;
-                if (x != null)
-                    MessageBox.Show(x.Text);*/
+            if(datagridAlumno.SelectedIndex != -1) {
+                TextBlock CedulaVal = datagridAlumno.Columns[0].GetCellContent(datagridAlumno.Items[datagridAlumno.SelectedIndex]) as TextBlock;
+                TextBlock RepresentanteVal = datagridAlumno.Columns[11].GetCellContent(datagridAlumno.Items[datagridAlumno.SelectedIndex]) as TextBlock;
+                //if (CedulaVal != null)
+                //MessageBox.Show(CedulaVal.Text);
+
+                alumno = new InsertAlumno(CedulaVal.Text, RepresentanteVal.Text);
+                alumno.ShowDialog();
             }
 
         }

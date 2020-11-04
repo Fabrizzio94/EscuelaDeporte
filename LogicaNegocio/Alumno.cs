@@ -227,8 +227,8 @@ namespace LogicaNegocio
             //_conexion.InsertAlumno(alumno);
             if (ValidarRepresentante(alumno))
             {
-               
-                if (_conexion.GetRepresentanteById(alumno.Id_alumno) == null)
+                //_conexion.GetRepresentanteById(alumno.Id_alumno) == null
+                if (_conexion.GetAlumnoById(alumno.Id_alumno) == null)
                 {
                     // insert
                     _conexion.InsertAlumno(alumno);

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -21,6 +22,8 @@ using System.Drawing;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Behaviours;
+using System.Diagnostics;
+
 namespace Escuela_app
 {
     /// <summary>
@@ -33,13 +36,19 @@ namespace Escuela_app
             InitializeComponent();
             AsignacionComboBox();
         }
+        public InsertAlumno(string cedula, string representante) :this()
+        {
+            // constructor for update data of Alumno
+            FillFromMainWindowByCedula(cedula, representante);
+        }
         // instancias //
         private Alumno alumno = new Alumno();
         private handler_events handler = new handler_events();
         public EAlumno EAlumno { get; set; }
         private string PathFileName { get; set; }
         List<string> PathFileNames = new List<string>();
-        MainWindow ventana;
+        //MessageBoxResult result1;
+        private bool InsertOrUpdate = false;
         InsertRepresentante WRepresentante;
         // Image imagenBoton;
         // methods
@@ -51,6 +60,7 @@ namespace Escuela_app
                 if (EAlumno == null) EAlumno = new EAlumno();
                 EAlumno.Id_alumno = textBox_cedula.Text;
                 EAlumno.nomb_alumno = textBox_nombre.Text.ToUpper();
+                EAlumno.sexo = GetSexValueFromRadioButton();
                 EAlumno.fecha_nacimiento = fecha_nacimiento.SelectedDate.Value;
                 EAlumno.edad = Convert.ToInt32(textBox_edad.Text);
                 EAlumno.ciudad = comboBox_ciudad.SelectedItem.ToString().ToUpper();
@@ -59,9 +69,13 @@ namespace Escuela_app
                 EAlumno.direccion_dom = textBox_direccion.Text;
                 EAlumno.tipo_sangre = comboBox_sangre.SelectedItem.ToString();
                 EAlumno.num_uniforme = Convert.ToInt32(textBox_uniforme.Text);
-                EAlumno.id_representante = WRepresentante.ERepresentante.Id_representante;
+                EAlumno.id_representante = InsertOrUpdate == false ?  WRepresentante.ERepresentante.Id_representante : EAlumno.id_representante;
                 EAlumno.fecha_registro = DateTime.Today;
                 EAlumno.estado = true;
+                SaveFilesMediaToFolderAlumno(); // called here to get the path of photo of Alumno to the object Alumno
+                EAlumno.FotoPath = String.IsNullOrEmpty(handler.FotoPath) ? "": handler.FotoPath;
+                EAlumno.FichaPath = String.IsNullOrEmpty(handler.FichaPath) ? "" : handler.FichaPath;
+                //EAlumno.FichaPath = PathFileNames;
                 alumno.SaveAlumno(EAlumno);
                 /*if (alumno.stringBuilder.Length != 0)
                 {
@@ -74,7 +88,7 @@ namespace Escuela_app
                     // TraerTodos();
                 }*/
                 // Path of image || Representante || Alumno
-                SaveFilesMediaToFolderAlumno();
+                //SaveFilesMediaToFolderAlumno();
                 DialogResult = true;
 
             }
@@ -94,13 +108,73 @@ namespace Escuela_app
             comboBox_sangre.ItemsSource = alumno.getBloodType();
             textBox_cedula.Focus();
         }
+        void FillFromMainWindowByCedula(string cedula, string representante)
+        {
+            try
+            {
+                EAlumno = alumno.GetAlumnoById(cedula);
+                textBox_cedula.IsEnabled = false;
+                InsertOrUpdate = true;
+                if (EAlumno != null)
+                {
+                    textBox_cedula.Text = EAlumno.Id_alumno;
+                    textBox_nombre.Text = EAlumno.nomb_alumno;
+                    SetSexByIdFromMainWindowToUpdateAlumno(EAlumno.sexo);
+                    fecha_nacimiento.SelectedDate = EAlumno.fecha_nacimiento.Date;
+                    // edad => edad.text = Ealumno.edad;
+                    
+                    comboBox_provincia.Text = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(EAlumno.provincia.ToString().ToLower());
+                    comboBox_ciudad.Text = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(EAlumno.ciudad.ToLower());
+                    textBox_nacional.Text = EAlumno.nacionalidad;
+                    textBox_direccion.Text = EAlumno.direccion_dom;
+                    comboBox_sangre.Text = EAlumno.tipo_sangre;
+                    textBox_uniforme.Text = EAlumno.num_uniforme.ToString();
+                    textBox_representante.Text = representante;
+                    imagenAlumno.Source = handler.DrawImage(String.IsNullOrEmpty(EAlumno.FotoPath) ? "df_alumno.png": null, !String.IsNullOrEmpty(EAlumno.FotoPath) ? EAlumno.FotoPath: null);
+                    if (!string.IsNullOrEmpty(EAlumno.FichaPath)) { 
+                        btn_VerFicha.Visibility = Visibility.Visible;
+                    }
+                    // set image of Alumno
+                    //imagenAlumno.Source = handler.DrawImage(null, PathFileName);
+                    // Dialog box with two buttons: yes and no.
+                    //
+                    /*result1 = MessageBox.Show("Desea actualizar los datos del Alumno?",
+                        "Usuario Registrado",
+                        MessageBoxButton.YesNo);
+                    if (result1 != MessageBoxResult.Yes)
+                    {
+                        // cerrar
+                        DialogResult = false;
+                    }*/
+                }
+            } catch (Exception er)
+            {
+                MessageBox.Show(string.Format("Error: {0}", er.Message), "Error inesperado");
+            }
+        }
+        void SetSexByIdFromMainWindowToUpdateAlumno(string sexo)
+        {
+            radioButton_masculino.IsChecked = sexo == "Masculino" ?  true : false;
+            radioButton_femenino.IsChecked = sexo == "Femenino" ? true : false;
+        }
+        string GetSexValueFromRadioButton()
+        {
+            string SexVal = "";
+            if (radioButton_masculino.IsChecked == false && radioButton_femenino.IsChecked == false)
+            {
+                return "Masculino";
+            }
+            SexVal = radioButton_masculino.Content.ToString() == "Masculino" ? "Masculino" : "Femenino";
+            return SexVal;
+        }
+        
         /*private Image GetImageButtom(Button boton, string name)
         {
             Image imagenBoton;
             imagenBoton = boton.FindName(name) as Image;
             return imagenBoton;
         }*/
-        int calcularEdad(DatePicker fecha)
+        int CalcularEdad(DatePicker fecha)
         {
             DateTime fechaActual = DateTime.Today;
             int edad = fechaActual.Year - fecha.SelectedDate.Value.Year;
@@ -152,8 +226,13 @@ namespace Escuela_app
         }
         public void SaveFilesMediaToFolderAlumno()
         {
-            handler.AlreadyExist(PathFileName, textBox_representante.Text, textBox_nombre.Text);
-            handler.MultiImagesToPDF(PathFileNames, textBox_representante.Text, textBox_nombre.Text);
+            if(PathFileName != null)
+                handler.AlreadyExist(PathFileName, textBox_representante.Text, textBox_nombre.Text);
+            if (PathFileNames.Any())
+                handler.MultiImagesToPDF(PathFileNames, textBox_representante.Text, textBox_nombre.Text);
+            
+            //handler.AlreadyExist(PathFileName, textBox_representante.Text, textBox_nombre.Text);
+            //handler.MultiImagesToPDF(PathFileNames, textBox_representante.Text, textBox_nombre.Text);
         }
         // events 
         private void Button_representante_Click(object sender, RoutedEventArgs e)
@@ -174,13 +253,7 @@ namespace Escuela_app
             }
         }
 
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            // Console.WriteLine("Cerrar");
-            ventana = new MainWindow();
-            ventana.Show();
-            this.Close();
-        }
+        
 
         private void ComboBox_provincia_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -286,18 +359,6 @@ namespace Escuela_app
             Button_limpiar_Click(sender, e);
         }
 
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            // ... Get RadioButton reference.
-            var button = sender as RadioButton;
-
-            // ... Display button content as title.
-            // this.Title = button.Content.ToString();
-            EAlumno = new EAlumno
-            {
-                sexo = button.Content.ToString()
-            };
-        }
 
         private void Button_cancelar_Click(object sender, RoutedEventArgs e)
         {
@@ -308,8 +369,9 @@ namespace Escuela_app
         {
             handler.ClearFields(grilla);
             imagenAlumno.Source = handler.DrawImage("df_alumno.png", null);
+            textBox_cedula.IsEnabled = true;
         }
-        private void onChanges_TextRepresentante(object sender, TextChangedEventArgs e)
+        private void OnChanges_TextRepresentante(object sender, TextChangedEventArgs e)
         {
             button_ficha.IsEnabled = String.IsNullOrEmpty(textBox_representante.Text) ? false : true;
             button_fotoAlumno.IsEnabled = String.IsNullOrEmpty(textBox_representante.Text) ? false : true;
@@ -327,6 +389,15 @@ namespace Escuela_app
             {
                 imagenAlumno.Source = handler.DrawImage("", PathFileName);
                 //imagenAlumno.Source = handler.Convert(handler.ImageWpfToGDI(handler.DrawImage("", PathFileName)));
+            }
+        }
+        private void AbrirPdf(object sender, RoutedEventArgs e)
+        {
+            //Console.WriteLine(EAlumno.FichaPath);
+            //Process.Start("D:\\Descargas\\CertiVotacion.pdf");
+            if(!string.IsNullOrEmpty(EAlumno.FichaPath))
+            {
+                Process.Start(EAlumno.FichaPath);
             }
         }
     }

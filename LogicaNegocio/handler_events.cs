@@ -25,7 +25,10 @@ namespace LogicaNegocio
     {
         /* variables */
         string path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\Resources\"));
+        //string path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"Resources\"));
         string ImagePath = "";
+        public string FotoPath { get; set; }
+        public string FichaPath { get; set; }
         /* instances*/
         public ImageSource DrawImage(string filename, string Filename)
         {
@@ -260,7 +263,9 @@ namespace LogicaNegocio
             {
                 string path = Directory.GetCurrentDirectory();
                 string dest = Path.GetFullPath(Path.Combine(path, $@"..\..\Resources\Escuela\{DirRepresentante}\{SubDirAlumno}\")) + $"{SubDirAlumno}" + Path.GetExtension(source);
+                //string dest = Path.GetFullPath(Path.Combine(path, $@"Resources\Escuela\{DirRepresentante}\{SubDirAlumno}\")) + $"{SubDirAlumno}" + Path.GetExtension(source);
                 File.Copy(source, dest, true);
+                FotoPath = dest;
             }
             catch (IOException e)
             {
@@ -271,6 +276,7 @@ namespace LogicaNegocio
         {
             string path = Directory.GetCurrentDirectory();
             string dest = Path.GetFullPath(Path.Combine(path, $@"..\..\Resources\Escuela\{DirRepresentatne}"));
+            //string dest = Path.GetFullPath(Path.Combine(path, $@"Resources\Escuela\{DirRepresentatne}"));
             // If directory does not exist, create it. 
             if (!Directory.Exists(dest))
             {
@@ -298,6 +304,9 @@ namespace LogicaNegocio
                 //
                 string path = Directory.GetCurrentDirectory();
                 string dest = Path.GetFullPath(Path.Combine(path, $@"..\..\Resources\Escuela\{DirRepresentante}\{SubDirAlumno}\")) + $"ficha_medica_{SubDirAlumno}" + ".pdf";
+                FichaPath = dest;
+                FotoPath = ImagePath;
+                //string dest = Path.GetFullPath(Path.Combine(path, $@"Resources\Escuela\{DirRepresentante}\{SubDirAlumno}\")) + $"ficha_medica_{SubDirAlumno}" + ".pdf";
                 Imagen img = new Imagen(ImageDataFactory.Create(list[0]));
 
                 PdfDocument pdf = new PdfDocument(new PdfWriter(dest));// + $"\ficha_medica_{SubDirAlumno}" + ".pdf"));

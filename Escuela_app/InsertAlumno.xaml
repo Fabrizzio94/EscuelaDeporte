@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:Escuela_app"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="Alumno" Height="529.805" Width="884.463" Closed="Window_Closed" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" Background="Gainsboro">
+        Title="Alumno" Height="529.805" Width="884.463" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" Background="Gainsboro">
     
     <Grid x:Name="grilla" Margin="0,0,3.6,1">
         <Label x:Name="label" Content="Cedula: " Margin="94,22,0,0" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" VerticalAlignment="Top" HorizontalAlignment="Left"/>
@@ -15,8 +15,8 @@
         <Label x:Name="label1" Content="Nombre: " Margin="83,62,0,0" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <TextBox x:Name="textBox_nombre" HorizontalAlignment="Left" Height="23" Margin="157,64,0,0" TextWrapping="Wrap" Text="" Width="330" KeyDown="TextBox_nombre_KeyDown" TextChanged="TextBoxes_TextChanged" FontSize="14" VerticalAlignment="Top" VerticalContentAlignment="Center" TabIndex="1" Controls:TextBoxHelper.Watermark="Ingrese nombre de Alumno"/>
         <Label x:Name="label2" Content="Sexo: " Margin="105,100,0,0" FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <RadioButton x:Name="radioButton_masculino" Content="Masculino" HorizontalAlignment="Left" Margin="157,106,0,0" VerticalAlignment="Top" FontSize="14" VerticalContentAlignment="Center" Checked="RadioButton_Checked" TabIndex="2"/>
-        <RadioButton x:Name="radioButton_femenino" Content="Femenino" HorizontalAlignment="Left" Margin="262,106,0,0" VerticalAlignment="Top" FontSize="14" Checked="RadioButton_Checked" TabIndex="3"/>
+        <RadioButton x:Name="radioButton_masculino" Content="Masculino" HorizontalAlignment="Left" Margin="157,106,0,0" VerticalAlignment="Top" FontSize="14" VerticalContentAlignment="Center" TabIndex="2"/>
+        <RadioButton x:Name="radioButton_femenino" Content="Femenino" HorizontalAlignment="Left" Margin="262,106,0,0" VerticalAlignment="Top" FontSize="14"  TabIndex="3"/>
         <Label x:Name="label3" Content="Fecha Nacimiento:" Margin="24,139,0,0" RenderTransformOrigin="0.47,0.474" FontSize="14" Width="124" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <DatePicker x:Name="fecha_nacimiento" HorizontalAlignment="Left" Margin="157,141,0,0" VerticalAlignment="Top" SelectedDateChanged="Fecha_nacimiento_SelectedDateChanged" FontSize="14" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" TabIndex="4" IsTabStop="True"/>
         <Label x:Name="label4" Content="Edad: " HorizontalAlignment="Left" Margin="362,139,0,0" VerticalAlignment="Top" FontSize="14"/>
@@ -58,14 +58,14 @@
             </Button.Resources>
         </Button>
         <Label x:Name="label11" Content="Representante: " HorizontalAlignment="Left" Margin="46,333,0,0" VerticalAlignment="Top" FontSize="14"/>
-        <TextBox x:Name="textBox_representante" HorizontalAlignment="Left" Height="23" Margin="157,334,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="348" FontSize="14" IsEnabled="False" TextChanged="onChanges_TextRepresentante" Controls:TextBoxHelper.Watermark="Ingrese representante de alumno"/>
+        <TextBox x:Name="textBox_representante" HorizontalAlignment="Left" Height="23" Margin="157,334,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="348" FontSize="14" IsEnabled="False" TextChanged="OnChanges_TextRepresentante" Controls:TextBoxHelper.Watermark="Ingrese representante de alumno"/>
         <Button x:Name="button_cancelar" HorizontalAlignment="Left" Margin="445,413,0,0" VerticalAlignment="Top" Width="67" Height="67" Click="Button_cancelar_Click" TabIndex="15" IsTabStop="False" Background="Transparent" BorderThickness="0" Padding="0" ToolTip="Cancelar">
             
             <Image x:Name="cancelar" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center" Source="Resources/cancel.png" />
             
         </Button>
-        <Button x:Name="button_ficha" HorizontalAlignment="Left" Margin="758,304,0,0" VerticalAlignment="Top" Width="58" Height="80" Click="Button_ficha_Click" IsEnabled="False" Padding="0" ToolTip="Ingrese Ficha medica" Background="Transparent" BorderThickness="0">
-            <Image x:Name="ficha_medica" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center" Height="79" Width="54" Source="Resources/medical_record.png"/>
+        <Button x:Name="button_ficha" HorizontalAlignment="Left" Margin="733,314,0,0" VerticalAlignment="Top" Width="58" Height="80" Click="Button_ficha_Click" IsEnabled="False" Padding="0" ToolTip="Ingrese Ficha medica" Background="Transparent" BorderThickness="0">
+            <Image x:Name="ficha_medica" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center" Source="Resources/medical_record.png"/>
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -75,6 +75,14 @@
         <Image x:Name="imagenAlumno" HorizontalAlignment="Left" Height="152" Margin="692,16,0,0" VerticalAlignment="Top" Width="151" Stretch="UniformToFill" Source="Resources/df_alumno.png"/>
         <Button x:Name="button_fotoAlumno" HorizontalAlignment="Left" Margin="814,139,0,0" VerticalAlignment="Top" Width="29" Height="30" IsEnabled="False" Click="Button_fotoAlumno_Click" BorderThickness="0" BorderBrush="Red" Background="Transparent" Padding="0" ToolTip="Subir foto de alumno">
             <Image x:Name="upload" Stretch="UniformToFill" Width="28" Height="28" VerticalAlignment="Center" HorizontalAlignment="Center" Source="Resources/upload.png"/>
+        </Button>
+        <Button x:Name="btn_VerFicha" HorizontalAlignment="Left" Margin="791,333,0,0" VerticalAlignment="Top" Width="53" Height="48" Visibility="Hidden" Click="AbrirPdf" Padding="0" ToolTip="Ver Ficha" Background="Transparent" BorderThickness="0">
+            <Image x:Name="pdf_verified" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center" Source="Resources/pdf_check.png"/>
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
         </Button>
 
     </Grid>

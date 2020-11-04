@@ -25,5 +25,7 @@ namespace Entidades
         public DateTime fecha_registro { get; set; }
         public bool estado { get; set; }
         public string observacion { get; set; }
+        public string FotoPath { get; set; }
+        public string FichaPath { get; set; }
     }
 }

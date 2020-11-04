@@ -129,9 +129,9 @@ namespace ACCESO_DATOS
                 conexion.Open();*/
                 // if (conexion.State == ConnectionState.Open) { }
                 query = @"INSERT INTO alumno (id_alumno, nom_alumno,sexo, fecha_nacimiento,edad,ciudad,provincia,nacionalidad,
-                                               direccion_dom,tipo_sangre,num_uniforme,id_representante,fecha_registro,estado_alumno)
+                                               direccion_dom,tipo_sangre,num_uniforme,id_representante,fecha_registro,estado_alumno, foto_path, ficha_path)
                                                VALUES (@id_alumno,@nombre,@sexo,@fecha_nacimiento,@edad,@ciudad,@provincia,@nacionalidad,
-                                                        @direccion,@tipo_sangre,@uniforme,@representante,@fecha_registro,@estado)";
+                                                        @direccion,@tipo_sangre,@uniforme,@representante,@fecha_registro,@estado, @foto_path, @ficha_path)";
                 using (NpgsqlConnection con = new NpgsqlConnection(cadena)){
                     using (NpgsqlCommand cmd= new NpgsqlCommand(query, con))
                     {
@@ -150,6 +150,8 @@ namespace ACCESO_DATOS
                         cmd.Parameters.AddWithValue("@representante", Ealumno.id_representante);
                         cmd.Parameters.AddWithValue("@fecha_registro", Ealumno.fecha_registro);
                         cmd.Parameters.AddWithValue("@estado", Ealumno.estado);
+                        cmd.Parameters.AddWithValue("@foto_path", Ealumno.FotoPath);
+                        cmd.Parameters.AddWithValue("@ficha_path", Ealumno.FichaPath);
                         cmd.ExecuteNonQuery();
                         con.Close();
                     }
@@ -527,7 +529,9 @@ namespace ACCESO_DATOS
                                 id_representante = Convert.ToString(dataReader["id_representante"]),
                                 fecha_registro = Convert.ToDateTime(dataReader["fecha_registro"]),
                                 estado = Convert.ToBoolean(dataReader["estado_alumno"]),
-                                observacion = Convert.ToString(dataReader["observaciones"])
+                                observacion = Convert.ToString(dataReader["observaciones"]),
+                                FotoPath = Convert.ToString(dataReader["foto_path"]),
+                                FichaPath = Convert.ToString(dataReader["ficha_path"])
                             };
                             con.Close();
                             return Ealumno;
@@ -548,29 +552,31 @@ namespace ACCESO_DATOS
         /// </summary>
         /// <param name="alumno">Valores utilizados para hacer el Update al registro</param>
         /// <autor>Jhonny Fabricio Chamba López</autor>
-        public void UpdateAlumno(EAlumno alumno)
+        public void UpdateAlumno(EAlumno Ealumno)
         {
             using (NpgsqlConnection con = new NpgsqlConnection(cadena))
             {
                 con.Open();
                 query = @"UPDATE alumno SET  nom_alumno = @nombre, sexo = @sexo, fecha_nacimiento = @fecha_nacimiento, edad = @edad,
                                             ciudad = @ciudad, provincia = @provincia, nacionalidad = @nacionalidad,
-                                               direccion_dom = @direccion, tipo_sangre = @sangre, num_uniforme = @uniforme WHERE id_alumno = @id";
+                                               direccion_dom = @direccion, tipo_sangre = @sangre, num_uniforme = @uniforme, foto_path= @foto_path, ficha_path = @ficha_path
+                                                WHERE id_alumno = @id";
                 using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
                 {
                     // cmd.Parameters.AddWithValue("@id_representante", representante.Id_representante);
-                    cmd.Parameters.AddWithValue("@nombre", alumno.nomb_alumno);
-                    cmd.Parameters.AddWithValue("@sexo", alumno.sexo);
-                    cmd.Parameters.AddWithValue("@fecha_nacimiento", alumno.fecha_nacimiento);
-                    cmd.Parameters.AddWithValue("@edad", alumno.edad);
-                    cmd.Parameters.AddWithValue("@ciudad", alumno.ciudad);
-                    cmd.Parameters.AddWithValue("@provincia", alumno.provincia);
-                    cmd.Parameters.AddWithValue("@nacionalidad", alumno.nacionalidad);
-                    cmd.Parameters.AddWithValue("@direccion", alumno.direccion_dom);
-                    cmd.Parameters.AddWithValue("@sangre", alumno.tipo_sangre);
-                    cmd.Parameters.AddWithValue("@uniforme", alumno.num_uniforme);
-                    cmd.Parameters.AddWithValue("@id", alumno.Id_alumno);
-
+                    cmd.Parameters.AddWithValue("@nombre", Ealumno.nomb_alumno);
+                    cmd.Parameters.AddWithValue("@sexo", Ealumno.sexo);
+                    cmd.Parameters.AddWithValue("@fecha_nacimiento", Ealumno.fecha_nacimiento);
+                    cmd.Parameters.AddWithValue("@edad", Ealumno.edad);
+                    cmd.Parameters.AddWithValue("@ciudad", Ealumno.ciudad);
+                    cmd.Parameters.AddWithValue("@provincia", Ealumno.provincia);
+                    cmd.Parameters.AddWithValue("@nacionalidad", Ealumno.nacionalidad);
+                    cmd.Parameters.AddWithValue("@direccion", Ealumno.direccion_dom);
+                    cmd.Parameters.AddWithValue("@sangre", Ealumno.tipo_sangre);
+                    cmd.Parameters.AddWithValue("@uniforme", Ealumno.num_uniforme);
+                    cmd.Parameters.AddWithValue("@id", Ealumno.Id_alumno);
+                    cmd.Parameters.AddWithValue("@foto_path", Ealumno.FotoPath);
+                    cmd.Parameters.AddWithValue("@ficha_path", Ealumno.FichaPath);
                     cmd.ExecuteNonQuery();
                     con.Close();
                 }

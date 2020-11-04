@@ -249,5 +249,8 @@
   <ItemGroup>
     <Resource Include="Resources\upload.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\pdf_check.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
